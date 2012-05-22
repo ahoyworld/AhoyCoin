@@ -1,0 +1,15 @@
+name: AhoyCoin
+main: uk.co.ahoyworld.AhoyCoin
+version: 0.1
+
+commands:
+  ac:
+    description: The main command for AhoyCoin.
+    usage: /AC [command]
+    permission: ahoycoin.main
+    permission-message: [AhoyCoin] No. Naughty.
+    
+permissions:
+  ahoycoin.main:
+    description: Gives access to the AC command
+    default: op
