@@ -1,0 +1,635 @@
+apple:
+  price: 50
+  maxstock: 12
+  replenishtime: 1
+  replenishamount: 1
+arrow:
+  price: 15
+  maxstock: 256
+  replenishtime: 72
+  replenishamount: 64
+bed:
+  price: 2250
+  maxstock: 3
+  replenishtime: 72
+  replenishamount: 1
+boat:
+  price: 2500
+  maxstock: 2
+  replenishtime: 216
+  replenishamount: 1
+bone:
+  price: 100
+  maxstock: 0
+  replenishtime: 0
+  replenishamount: 0
+book:
+  price: 50
+  maxstock: 6
+  replenishtime: 216
+  replenishamount: 2
+bookshelf:
+  price: 450
+  maxstock: 6
+  replenishtime: 216
+  replenishamount: 1
+bow:
+  price: 1000
+  maxstock: 4
+  replenishtime: 216
+  replenishamount: 1
+bowl:
+  price: 100
+  maxstock: 5
+  replenishtime: 216
+  replenishamount: 5
+bread:
+  price: 750
+  maxstock: 64
+  replenishtime: 216
+  replenishamount: 8
+brick:
+  price: 100
+  maxstock: 20
+  replenishtime: 216
+  replenishamount: 4
+brown_mushroom:
+  price: 1000
+  maxstock: 5
+  replenishtime: 216
+  replenishamount: 
+bucket:
+  price: 20400.75
+  maxstock: 2
+  replenishtime:
+  replenishamount:
+cactus:
+  price: 10
+  maxstock: 1
+  replenishtime:
+  replenishamount:
+cake:
+  price: 45386.50
+  maxstock: 32
+  replenishtime:
+  replenishamount:
+chainmail_boots:
+  price: 400
+  maxstock: 2
+  replenishtime:
+  replenishamount:
+chainmail_chestplate:
+  price: 500
+  maxstock: 2
+  replenishtime:
+  replenishamount:
+chainmail_helmet:
+  price: 450
+  maxstock: 2
+  replenishtime:
+  replenishamount:
+chainmail_leggings:
+  price: 500
+  maxstock: 2
+  replenishtime:
+  replenishamount:
+charcoal:
+  price: 1050
+  maxstock: 0
+  replenishtime:
+  replenishamount:
+chest:
+  price: 2000
+  maxstock: 4
+  replenishtime:
+  replenishamount:
+clay_block:
+  price: 2000
+  maxstock: 0
+  replenishtime:
+  replenishamount:
+clay_brick:
+  price: 550
+  maxstock: 26
+  replenishtime:
+  replenishamount:
+clay_ball:
+  price: 500
+  maxstock: 0
+  replenishtime:
+  replenishamount:
+coal:
+  price: 5250
+  maxstock: 1
+  replenishtime:
+  replenishamount:
+compass:
+  price: 27451
+  maxstock: 1
+  replenishtime:
+  replenishamount:
+cooked_fish:
+  price: 666.25
+  maxstock: 32
+  replenishtime:
+  replenishamount:
+dirt:
+  price: 100
+  maxstock: 0
+  replenishtime:
+  replenishamount:
+double_step:
+  price: 480
+  maxstock: 0
+  replenishtime:
+  replenishamount:
+egg:
+  price: 500
+  maxstock: 10
+  replenishtime:
+  replenishamount:
+feather:
+  price: 400
+  maxstock: 0
+  replenishtime:
+  replenishamount:
+fence:
+  price: 375
+  maxstock: 64
+  replenishtime:
+  replenishamount:
+fishing_rod:
+  price: 987.50
+  maxstock: 1
+  replenishtime:
+  replenishamount:
+furnace:
+  price: 1320
+  maxstock: 5
+  replenishtime:
+  replenishamount:
+glass:
+  price: 1156.25
+  maxstock: 32
+  replenishtime:
+  replenishamount:
+glowstone_dust:
+  price: 4096
+  maxstock: 32
+  replenishtime:
+  replenishamount:
+gold_chestplate:
+  price: 13600.50
+  maxstock: 2
+  replenishtime:
+  replenishamount:
+gold_helmet:
+  price: 8500.31
+  maxstock: 2
+  replenishtime:
+  replenishamount:
+gold_record:
+  price: 100000
+  maxstock: 1
+  replenishtime:
+  replenishamount:
+gold_axe:
+  price: 5225.19
+  maxstock: 1
+  replenishtime:
+  replenishamount:
+gold_block:
+  price: 15300.56
+  maxstock: 1
+  replenishtime:
+  replenishamount:
+gold_boots:
+  price: 6800.25
+  maxstock: 2
+  replenishtime:
+  replenishamount:
+gold_hoe:
+  price: 3525.13
+  maxstock: 1
+  replenishtime:
+  replenishamount:
+gold_ingot:
+  price: 1700.06
+  maxstock: 32
+  replenishtime:
+  replenishamount:
+gold_leggings:
+  price: 11900.44
+  maxstock: 2
+  replenishtime:
+  replenishamount:
+gold_ore:
+  price: 1043.81
+  maxstock: 0
+  replenishtime:
+  replenishamount:
+gold_pickaxe:
+  price: 5225.19
+  maxstock: 1
+  replenishtime:
+  replenishamount:
+gold_spade:
+  price: 1825.06
+  maxstock: 1
+  replenishtime:
+  replenishamount:
+gold_sword:
+  price: 3462.63
+  maxstock: 1
+  replenishtime:
+  replenishamount:
+gravel:
+  price: 
+  maxstock:
+  replenishtime:
+  replenishamount:
+green_record:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+grilled_pork:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+ink_sack:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+iron_axe:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+iron_block:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+iron_boots:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+iron_chestplate:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+iron_door:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+iron_helmet:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+iron_hoe:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+iron_ingot:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+iron_leggings:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+iron_ore:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+iron_pickaxe:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+iron_spade:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+iron_sword:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+ladder:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+lapis_ore:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+leather:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+leather_boots:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+leather_chestplate:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+leather_helmet:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+leather_leggings:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+lever:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+log:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+milk_bucket:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+minecart:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+mossy_cobblestone:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+mushroom_soup:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+note_block:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+obsidian:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+powered_minecart:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+pumpkin:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+rails:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+raw_fish:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+red_mushroom:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+red_rose:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+redstone_dust:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+redstone_torch:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+saddle:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+sand:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+sandstone:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+sapling:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+seeds:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+sign:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+slime_ball:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+snow_ball:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+sponge:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+step:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+stick:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+stone:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+stone_axe:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+stone_button:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+stone_hoe:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+stone_pickaxe:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+stone_plate:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+stone_spade:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+stone_sword:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+storage_minecart:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+string:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+sugar:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+sugar_cane:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+torch:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+watch:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+wheat:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+wood:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+wood_axe:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+wooden_door:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+wood_hoe:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+wood_pickaxe:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+wood_plate:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+wood_spade:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+wood_stairs:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+wood_sword:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+wool:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+workbench:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
+yellow_flower:
+  price:
+  maxstock:
+  replenishtime:
+  replenishamount:
