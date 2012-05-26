@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 settings:
   debug: false
 defaults:
@@ -8,7 +7,3 @@ phrases:
   item_no_exist: 'Item \"%item\" does not exist.'
   invalid_quantity: 'Invalid quantity.'
   sign_created: 'Shop created!'
-=======
-defaults:
-  tax: 10
->>>>>>> f0cdb11a47cc4b17f0d6430b8de97ebe1ba87bf6

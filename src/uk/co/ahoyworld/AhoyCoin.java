@@ -19,7 +19,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
  
 public class AhoyCoin extends JavaPlugin {
 			    
-<<<<<<< HEAD
 	static File configFile;
 	static File townsFile;
     static File basePriceFile;
@@ -45,18 +44,6 @@ public class AhoyCoin extends JavaPlugin {
     	return timeStamp;
     }
     
-=======
-    File configFile;
-    File townsFile;
-    File basePriceFile;
-    FileConfiguration config;
-    FileConfiguration towns;
-    FileConfiguration basePrices;
-    Logger log;
-    
-    String pre = ChatColor.GOLD + "[AhoyCoin]" + ChatColor.WHITE + " ";
-    
->>>>>>> f0cdb11a47cc4b17f0d6430b8de97ebe1ba87bf6
     public void onEnable()
     {
     	// get "replenishtimer" from items in towns.yml
@@ -202,7 +189,6 @@ public class AhoyCoin extends JavaPlugin {
     	// save this value in towns.yml as "replenishtimer" under the appropriate item
     	// refer to onEnable for the rest...
     	
-<<<<<<< HEAD
     	Integer i = 2;
     	Long currentTime = getTimeStamp();
     	Long ranForSecs = -1L;
@@ -269,8 +255,6 @@ public class AhoyCoin extends JavaPlugin {
     	
     	phrases.clear();
     	
-=======
->>>>>>> f0cdb11a47cc4b17f0d6430b8de97ebe1ba87bf6
         saveYamls();
         log.info("Plugin disabled.");
     }
@@ -299,7 +283,6 @@ public class AhoyCoin extends JavaPlugin {
                 	this.reloadConfig();
                 	return true;
                 }
-<<<<<<< HEAD
                 
                 if (args[0].equalsIgnoreCase("testphrase"))
                 {
@@ -315,8 +298,6 @@ public class AhoyCoin extends JavaPlugin {
                 {
                 	onEnable();
                 }
-=======
->>>>>>> f0cdb11a47cc4b17f0d6430b8de97ebe1ba87bf6
             }
             if (args.length == 2)
             {
