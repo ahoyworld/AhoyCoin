@@ -1,2 +1,9 @@
+settings:
+  debug: false
 defaults:
   tax: 10
+phrases:
+  town_no_exist: 'Town \"%town\" does not exist.'
+  item_no_exist: 'Item \"%item\" does not exist.'
+  invalid_quantity: 'Invalid quantity.'
+  sign_created: 'Shop created!'

@@ -1,5 +1,7 @@
 package uk.co.ahoyworld;
  
+import java.util.Date;
+import java.util.HashMap;
 import java.util.logging.Logger;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,20 +18,31 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
  
 public class AhoyCoin extends JavaPlugin {
-	
-	//create the variables for our config files
-    File configFile;
-    File townsFile;
-    File basePriceFile;
-    FileConfiguration config;
-    FileConfiguration towns;
-    FileConfiguration basePrices;
-    
-    //create a logger called "log" so we can output to the console
+			    
+	static File configFile;
+	static File townsFile;
+    static File basePriceFile;
+    static FileConfiguration config;
+    static FileConfiguration towns;
+    static FileConfiguration basePrices;
     Logger log;
     
-    //set up an "[AhoyCoin]" prefix that'll go at the beginning of all our messages
+	public static Date now = new Date();
+	public static String [] signText = new String [4];
+	
+	public static boolean replenishStartUp = true;
+    
     String pre = ChatColor.GOLD + "[AhoyCoin]" + ChatColor.WHITE + " ";
+    
+    public HashMap<String, String> phrases = new HashMap<String, String>(); // ID = node name; String = phrase
+    public static HashMap<String, String> replenishThreads = new HashMap<String, String>(); // ID = task ID; String [] = "TownName", "ItemName"
+    
+    public Long getTimeStamp()
+    {
+    	Date now = new Date();
+    	Long timeStamp = now.getTime();
+    	return timeStamp;
+    }
     
     public void onEnable()
     {
@@ -39,15 +52,14 @@ public class AhoyCoin extends JavaPlugin {
     	//		onEnable, set the initial delay (initial, regular repeat time) to (replenishtime - replenishtimer (i.e. 200 - 50)).
     	//		Using this technique, the replenishment will keep the position of longer replenishment times
     	
-    	//register our event that triggers when a play clicks a block
     	new Event_onBlockClick(this);
     	
-    	//ensure the config files are created
+    	// Phrases.getPhrases();
+    	
         configFile = new File(getDataFolder(), "config.yml");
         townsFile = new File(getDataFolder(), "towns.yml");
         basePriceFile = new File(getDataFolder(), "basePrice.yml");
      
-        //error when first running? show us!
         try
         {
             firstRun();
@@ -55,35 +67,54 @@ public class AhoyCoin extends JavaPlugin {
             e.printStackTrace();
         }
      
-        //define our config files as "YamlConfigurations"
         config = new YamlConfiguration();
         towns = new YamlConfiguration();
         basePrices = new YamlConfiguration();
 
-        //run the function "loadYamls"
         loadYamls();
         
         log = this.getLogger();
-        //tell us that the plugin has now been successfully enabled
+        
+        replenishStartUp = true;
+        Integer replenishTime = -1;
+        
+    	for (String town : towns.getKeys(false))
+    	{
+    		log.info("Key 1: " + town);
+    		for (String item : towns.getConfigurationSection(town + ".items").getKeys(false))
+    		{
+    			log.info("Key 2: " + item);
+    			if (towns.getKeys(true).contains(town + ".items." + item + ".replenishtimer"))
+				{
+    				log.info("GOT ONE!");
+    				if (towns.getKeys(true).contains(town + ".items." + item + ".replenishtime"))
+    				{
+    					replenishTime = towns.getInt(town + ".items." + item + ".replenishtime");
+    				} else {
+    					replenishTime = basePrices.getInt(item + ".replenishtime");
+    				}
+					createReplenishTimer(town, item, ((replenishTime * 24000) - towns.getInt(town + ".items." + item + ".replenishtimer")), (replenishTime * 24000));
+				}
+    		}
+    	}
+        
+    	replenishStartUp = false;
+    	
         log.info("Plugin enabled.");
     }
  
-    //function that saves the config files
-    public void saveYamls()
+    public static void saveYamls()
     {
         try
         {
-        	//save our config files
             config.save(configFile);
             towns.save(townsFile);
             basePrices.save(basePriceFile);
-        //problem? tell us!
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
  
-    //function that loads the config files
     public void loadYamls()
     {
         try
@@ -133,28 +164,109 @@ public class AhoyCoin extends JavaPlugin {
         }
     }
  
+    public void createReplenishTimer(String townName, String itemName, Integer initialDelay, Integer replenishTime)
+    {
+    	log.info("Replenish Timer Creator called! Town: " + townName + ", Item: " + itemName);
+    	if (AhoyCoin.replenishStartUp)
+    	{
+    		signText[1] = townName;
+    		signText[2] = itemName;
+    	}
+    	log.info("Sign 1: " + signText[1] + ", Sign 2: " + signText[2]);
+    	log.info("Delay: " + initialDelay.toString() + ", Time: " + replenishTime.toString());
+		replenish.taskID = getServer().getScheduler().scheduleSyncRepeatingTask(this, new replenish(null), (long) initialDelay, (long) replenishTime);
+		
+		Integer startTime = (int) (System.currentTimeMillis() / 1000L);
+		System.out.println("[AhoyCoin] Task ran with an ID of " + Integer.toString(replenish.taskID) + ".");
+		String townNameTime = townName + "," + itemName + "," + startTime.toString();
+		AhoyCoin.replenishThreads.put(Integer.toString(replenish.taskID), townNameTime);
+
+    }
+    
     public void onDisable()
     {
     	// interrupt all running async threads and get their current time (split) in ticks
     	// save this value in towns.yml as "replenishtimer" under the appropriate item
     	// refer to onEnable for the rest...
     	
+    	Integer i = 2;
+    	Long currentTime = getTimeStamp();
+    	Long ranForSecs = -1L;
+    	Integer ranForTicks = -1;
+    	String townName = "";
+    	String itemName = "";
+    	Integer replenishTime = -1;
+    	double timesRun = -1;
+    	Integer timesRunRounded = -1;
+    	//Integer extraneousData = -1;
+    	Integer finalTicks = -1;
+    	Integer startTimeUnix = -1;
+    	
+    	for (String townNameTime : replenishThreads.values())
+    	{
+    		//Long timeStamp = getTimeStamp();
+    		Integer timeStamp = (int) (System.currentTimeMillis() / 1000L);
+    		String [] taskInfo = townNameTime.split(",");
+    		townName = taskInfo[0];
+    		itemName = taskInfo[1];
+    		startTimeUnix = (int) (Long.parseLong(taskInfo[2]));
+    		ranForSecs = (long) (timeStamp - startTimeUnix);
+    		log.info("Current Time: " + timeStamp.toString() + ", Start Time: " + startTimeUnix.toString() + ", Ran for " + ranForSecs.toString() + " secs.");
+    		//ranForSecs = (currentTime.longValue() - Long.parseLong(taskInfo[2]));
+    		//log.info("Current Time: " + currentTime.toString() + ", Start Time: " + taskInfo[2]);
+    		ranForTicks = (int) (ranForSecs * 20);
+    		log.info("Task ID: " + i.toString() + ", Town: " + townName + ", Item: " + itemName + ".");
+    		
+    		if (towns.getKeys(true).contains(townName + ".items." + itemName + ".replenishtime"))
+    		{
+    			replenishTime = towns.getInt(townName + ".items." + itemName + ".replenishtime");
+    		} else {
+    			replenishTime = basePrices.getInt(itemName + ".replenishtime"); 
+    		}
+    		
+    		if (ranForTicks > (replenishTime * 24000))
+    		{
+    			timesRun = ranForTicks / 24000;
+    		} else {
+    			timesRun = 0;
+    		}
+    		
+    		timesRunRounded = (int)Math.floor(timesRun);
+    		if (!(timesRun == 0))
+    		{
+    			//act normal. just take away the extraneous
+        		finalTicks = (ranForTicks - (timesRunRounded * 24000));
+    		} else {
+    			//change up. add on to the timer!
+        		finalTicks = (ranForTicks - (timesRunRounded * 24000));
+    		}
+    		//finalTicks = ranForTicks - extraneousData;
+    		log.info("replenishTime: " + replenishTime.toString());
+    		log.info("ranForTicks: " + ranForTicks.toString());
+    		//log.info("extraneousData: " + extraneousData.toString());
+    		log.info("timesRunRounded: " + timesRunRounded.toString());
+    		log.info("Task ID: " + i.toString() + ", Final Ticks: " + finalTicks.toString() + ".");
+    		
+    		towns.set(townName + ".items." + itemName + ".replenishtimer", finalTicks);
+    		
+    		this.getServer().getScheduler().cancelTask(i);
+    		i++;
+    	}
+    	
+    	phrases.clear();
+    	
         saveYamls();
         log.info("Plugin disabled.");
     }
- 
+    
     public void loadConfiguration()
     {
         this.getConfig().options().copyDefaults(true);
         this.saveConfig();
     }
     
-    //this is a boolean (true/false) that manages when a player sends a /command
-    //if it returns true, the command is treated as recognised and so doesn't do anything special (apart from what we tell it to do)
-    //if it returns false, the help text is displayed. We specify this in the plugin.yml file under the "commands" node
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
     {
-    	//this just creates a variable named "player" that will be the player that sent the command
     	Player player = (Player) sender;
         if (cmd.getName().equalsIgnoreCase("ac"))
         {
@@ -170,6 +282,21 @@ public class AhoyCoin extends JavaPlugin {
                 {
                 	this.reloadConfig();
                 	return true;
+                }
+                
+                if (args[0].equalsIgnoreCase("testphrase"))
+                {
+                	player.sendMessage(pre + phrases.get("sign_created"));
+                }
+                
+                if (args[0].equalsIgnoreCase("disable"))
+                {
+                	onDisable();
+                }
+                
+                if (args[0].equalsIgnoreCase("enable"))
+                {
+                	onEnable();
                 }
             }
             if (args.length == 2)
