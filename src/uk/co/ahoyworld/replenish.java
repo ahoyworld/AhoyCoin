@@ -52,7 +52,7 @@ public class replenish implements Runnable
 		
 		//if (!AhoyCoin.replenishStartUp) { AhoyCoin.towns.set(townName + ".items." + itemName + ".replenishtimer", 0); }
 		Integer startTime = (int) (System.currentTimeMillis() / 1000L);
-		System.out.println("[AhoyCoin] Task ran with an ID of " + theTaskID + ".");
+		System.out.println("[AhoyCoin] Task ran with an ID of " + theTaskID + ". < This might not be true");
 		String townNameTime = townName + "," + itemName + "," + startTime.toString();
 		if (!AhoyCoin.replenishThreads.containsKey(taskID))
 		{

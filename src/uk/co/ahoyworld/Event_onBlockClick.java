@@ -1,5 +1,7 @@
 package uk.co.ahoyworld;
 
+import net.milkbowl.vault.economy.Economy;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
@@ -9,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class Event_onBlockClick implements Listener 
 {	
@@ -23,7 +26,7 @@ public class Event_onBlockClick implements Listener
 		this.plugin = plugin;
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-		
+	
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void blockLeftClick (PlayerInteractEvent event)
@@ -38,7 +41,7 @@ public class Event_onBlockClick implements Listener
 					Player player = event.getPlayer();
 					// player.sendMessage("Creating sign...");
 					final String [] signText = sign.getLines();
-					if (!(signText.length < 4))
+					if (!(signText[3].equals("")))
 					{
 						String townName = signText[1];
 						String itemName = signText[2].toLowerCase();
@@ -98,58 +101,6 @@ public class Event_onBlockClick implements Listener
 										AhoyCoin.signText[2] = itemName;
 										plugin.createReplenishTimer(townName, itemName, 0, replenishTime);
 										AhoyCoin.towns.set(townName + ".items." + itemName + ".replenishtimer", 0);
-										/*
-										plugin.towns.set(townName + ".items." + itemName + ".replenishtimer", 0);
-										final int taskId = plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(plugin, new Runnable()
-										{											
-											String townName = signText[1];
-											String itemName = signText[2];
-											 
-											public void run()
-											{
-												String theTaskID = Integer.valueOf(taskId).toString();
-																								
-												Integer replenishAmount = -1;
-												// get specified or default replenishment amount
-												if (plugin.towns.getKeys(true).contains(townName + ".items." + itemName + ".replenishamount"))
-												{
-													replenishAmount = plugin.towns.getInt(townName + ".items." + itemName + ".replenishamount");
-												} else {
-													replenishAmount = plugin.basePrices.getInt(itemName + ".replenishamount");
-												}
-												
-												// get specified or default maximum stock
-												Integer maxStock = -1;
-												if (plugin.towns.getKeys(true).contains(townName + ".items." + itemName + ".maxstock"))
-												{
-													maxStock = plugin.towns.getInt(townName + ".items." + itemName + ".maxstock");
-												} else {
-													maxStock = plugin.basePrices.getInt(itemName + ".maxstock");
-												}											
-												
-												// calculate new stock count
-												Integer oldCurStock = plugin.towns.getInt(townName + ".items." + itemName + ".curstock");
-												Integer newCurStock = -1;
-												if ((oldCurStock + replenishAmount) > maxStock)
-												{
-													// will go over max stock
-													newCurStock = maxStock;
-												} else {
-													// will not go over max stock
-													newCurStock = oldCurStock + replenishAmount;
-												}
-												
-												Long startTime = plugin.now.getTime();
-												System.out.println("[AhoyCoin] Task created with an ID of " + theTaskID + ".");
-												String townNameTime = townName + "," + itemName + "," + startTime.toString();
-												plugin.replenishThreads.put(theTaskID, townNameTime);
-												
-												System.out.println("Item \"" + itemName + "\" in town \"" + townName + "\" replenished " + replenishAmount.toString() + " stock and now has " + newCurStock.toString() + " stock.");
-												plugin.towns.set(townName + ".items." + itemName + ".curstock", newCurStock);
-
-												plugin.saveYamls();
-											}
-										}, 0L, (replenishTime)); */
 									}								
 								} else {
 									player.sendMessage(plugin.pre + "Quantity \"" + quantity.toString() + "\" invalid. Please specify a value below the maximum stock level (NO. HERE).");
@@ -194,27 +145,71 @@ public class Event_onBlockClick implements Listener
 			if (event.getClickedBlock().getState() instanceof Sign)
 			{
 				Sign sign = (Sign) event.getClickedBlock().getState();
-				Player player = event.getPlayer();
-				// player.sendMessage(plugin.pre + "You right clicked a sign. Well-fucking-done.");
-				String [] signText = sign.getLines();
-				String townName = signText[1];
-				String itemName = signText[2];
-				Integer quantity = Integer.parseInt(signText[3]);
-				Integer curstock = AhoyCoin.towns.getInt(townName + ".items." + itemName + ".curstock");
-				if (quantity > curstock)
+				if (sign.getLine(0).equalsIgnoreCase(ChatColor.BLUE + "[Vendor]"))
 				{
-					// Sorry - we're currently out of stock! Our next shipment of X item(s) comes in X days.
-					player.sendMessage(plugin.pre + "Buying quantity larger than current stock.");
-					player.sendMessage(plugin.pre + "I'll sort this out later.");
-				} else {
-					ItemStack items = new ItemStack(Material.getMaterial(itemName.toUpperCase()), quantity);
-					player.getInventory().addItem(items);
-					player.updateInventory();
-					Integer newStock = curstock - quantity;
-					AhoyCoin.towns.set(signText[1] + ".items." + signText[2] + ".curstock", newStock);
-					AhoyCoin.saveYamls();
-					// player.sendMessage(plugin.pre + "In seriousness, you took " + quantity.toString() + " of the available " + curstock.toString() + " stock.");
-					// player.sendMessage(plugin.pre + "Current stock level is now " + newStock.toString() + ".");
+					Player player = event.getPlayer();
+					// player.sendMessage(plugin.pre + "You right clicked a sign. Well-fucking-done.");
+					String [] signText = sign.getLines();
+					String townName = signText[1];
+					String itemName = signText[2];
+					Integer quantity = Integer.parseInt(signText[3]);
+					Integer curstock = AhoyCoin.towns.getInt(townName + ".items." + itemName + ".curstock");
+					double tax = AhoyCoin.towns.getInt(townName + ".tax");
+					double preTax = -1;
+					double finalPrice = -1;
+					
+					if (!AhoyCoin.towns.getKeys(true).contains(townName + ".items." + itemName)) // if item isn't created
+					{
+						AhoyCoin.towns.set(townName + ".items." + itemName + ".curstock", AhoyCoin.basePrices.getInt(itemName + ".maxstock"));
+						AhoyCoin.saveYamls();
+						preTax = AhoyCoin.basePrices.getInt(itemName + ".price") * quantity;
+						finalPrice = preTax + ((preTax / 100) * tax);
+					} else if (AhoyCoin.towns.getConfigurationSection(townName + ".items." + itemName).getKeys(false).contains("price")) {
+						preTax = AhoyCoin.towns.getInt(townName + ".items." + itemName + ".price") * quantity;
+						finalPrice = preTax + ((preTax / 100) * tax);
+					} else {
+						preTax = AhoyCoin.basePrices.getInt(itemName + ".price") * quantity;
+						finalPrice = preTax + ((preTax / 100) * tax);
+					}
+					
+					if (quantity > curstock)
+					{
+						// Sorry - we're currently out of stock! Our next shipment of X item(s) comes in X days.
+						//player.sendMessage(plugin.pre + "Buying quantity larger than current stock.");
+						//player.sendMessage(plugin.pre + "I'll sort this out later.");
+						player.sendMessage(plugin.pre + "Sorry! We're currently out of stock!");
+					} else {
+						
+						
+						Economy econ = null;
+						RegisteredServiceProvider<Economy> economyProvider = plugin.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+						if (economyProvider != null)
+						{
+							econ = economyProvider.getProvider();
+						}
+						
+						if ((double) econ.getBalance(player.getName()) >= finalPrice)
+						{
+							ItemStack items = new ItemStack(Material.getMaterial(itemName.toUpperCase()), quantity);
+							econ.withdrawPlayer(player.getName(), finalPrice);
+							player.getInventory().addItem(items);
+							player.updateInventory();
+							Integer newStock = curstock - quantity;
+							AhoyCoin.towns.set(signText[1] + ".items." + signText[2] + ".curstock", newStock);
+							AhoyCoin.saveYamls();
+							player.sendMessage(plugin.pre + "You bought " + quantity.toString() + " " + itemName.toString() + "(s) from " + townName + " for " + String.valueOf(finalPrice) + ".");
+							player.sendMessage(plugin.pre + "Your new balance is " + econ.getBalance(player.getName()) + ".");
+						} else {
+							player.sendMessage(plugin.pre + "You don't have enough money! You've only got " + econ.getBalance(player.getName()) + "!");
+						}
+						
+
+						// player.sendMessage(plugin.pre + "In seriousness, you took " + quantity.toString() + " of the available " + curstock.toString() + " stock.");
+						// player.sendMessage(plugin.pre + "Current stock level is now " + newStock.toString() + ".");
+					}
+				} else if (sign.getLine(0).equalsIgnoreCase("[Vendor]")) {
+					Player player = event.getPlayer();
+					player.sendMessage(plugin.pre + "Left-click the sign first to create it!");
 				}
 			}
 		}

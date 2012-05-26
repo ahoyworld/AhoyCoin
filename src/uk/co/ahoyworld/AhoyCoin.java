@@ -190,7 +190,6 @@ public class AhoyCoin extends JavaPlugin {
     	// refer to onEnable for the rest...
     	
     	Integer i = 2;
-    	Long currentTime = getTimeStamp();
     	Long ranForSecs = -1L;
     	Integer ranForTicks = -1;
     	String townName = "";
