@@ -23,10 +23,12 @@ public class AhoyCoin extends JavaPlugin {
 	static File townsFile;
     static File basePriceFile;
     static File projectsFile;
+    static File playerListFile;
     static FileConfiguration config;
     static FileConfiguration towns;
     static FileConfiguration basePrices;
     static FileConfiguration projects;
+    static FileConfiguration playerList;
     Logger log;
     
     private ProjectsCommand projectsExecutor;
@@ -60,6 +62,7 @@ public class AhoyCoin extends JavaPlugin {
         townsFile = new File(getDataFolder(), "towns.yml");
         basePriceFile = new File(getDataFolder(), "basePrice.yml");
         projectsFile = new File(getDataFolder(), "projects.yml");
+        playerListFile = new File(getDataFolder(), "playerList.yml");
      
         try
         {
@@ -72,6 +75,7 @@ public class AhoyCoin extends JavaPlugin {
         towns = new YamlConfiguration();
         basePrices = new YamlConfiguration();
         projects = new YamlConfiguration();
+        playerList = new YamlConfiguration();
 
         loadYamls();
         
@@ -113,6 +117,7 @@ public class AhoyCoin extends JavaPlugin {
             towns.save(townsFile);
             basePrices.save(basePriceFile);
             projects.save(projectsFile);
+            playerList.save(playerListFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -126,6 +131,7 @@ public class AhoyCoin extends JavaPlugin {
             towns.load(townsFile);
             basePrices.load(basePriceFile);
             projects.load(projectsFile);
+            playerList.save(playerListFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -152,6 +158,11 @@ public class AhoyCoin extends JavaPlugin {
         {
         	projectsFile.getParentFile().mkdirs();
         	copy(getResource("projects.yml"), projectsFile);
+        }
+        if (!playerListFile.exists())
+        {
+        	playerListFile.getParentFile().mkdirs();
+        	copy(getResource("playerList.yml"), playerListFile);
         }
     }
  

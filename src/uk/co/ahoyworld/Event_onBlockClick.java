@@ -117,6 +117,7 @@ public class Event_onBlockClick implements Listener
 					}
 				} else if (sign.getLine(0).equalsIgnoreCase(ChatColor.BLUE + "[Vendor]")) {
 					Player player = event.getPlayer();
+					String playerName = player.getName();
 					String [] signText = sign.getLines();
 					String townName = signText[1];
 					String itemName = signText[2].toLowerCase();
@@ -125,20 +126,53 @@ public class Event_onBlockClick implements Listener
 					double preTax = -1;
 					double finalPrice = -1;
 					
+					if (AhoyCoin.playerList.getKeys(false).contains(player.getName()))
+					{
+						if (AhoyCoin.playerList.getString(playerName + ".trademode").equalsIgnoreCase("buy"))
+						{
+							//set to sell mode
+							AhoyCoin.playerList.set(playerName + ".trademode", "sell");
+						} else {
+							//set to buy mode
+							AhoyCoin.playerList.set(playerName + ".trademode", "buy");
+						}
+					} else {
+						AhoyCoin.playerList.set(playerName + ".trademode", "buy");
+						//player does not exist - create new buy mode
+					}
+					
+					boolean buymode = AhoyCoin.playerList.getString(player.getName() + ".trademode").equalsIgnoreCase("buy");
+					
 					if (!AhoyCoin.towns.getKeys(true).contains(townName + ".items." + itemName)) // if item isn't created
 					{
 						AhoyCoin.towns.set(townName + ".items." + itemName + ".curstock", AhoyCoin.basePrices.getInt(itemName + ".maxstock"));
 						AhoyCoin.saveYamls();
 						preTax = AhoyCoin.basePrices.getInt(itemName + ".price") * quantity;
 						finalPrice = preTax + ((preTax / 100) * tax);
-					} else if (AhoyCoin.towns.getConfigurationSection(townName + ".items." + itemName).getKeys(false).contains("price")) {
+					} else if (AhoyCoin.towns.getConfigurationSection(townName + ".items." + itemName).getKeys(false).contains("price")) { //if price is specified
 						preTax = AhoyCoin.towns.getInt(townName + ".items." + itemName + ".price") * quantity;
 						finalPrice = preTax + ((preTax / 100) * tax);
-					} else {
+					} else { //use default price
 						preTax = AhoyCoin.basePrices.getInt(itemName + ".price") * quantity;
 						finalPrice = preTax + ((preTax / 100) * tax);
 					}
-					player.sendMessage(plugin.pre + "Buy " + quantity.toString() + " " + itemName + "(s) from " + townName + " for " + finalPrice + "?");
+					
+					if (!buymode)
+					{
+						finalPrice = (finalPrice / 100) * AhoyCoin.config.getInt("defaults.sell_percent");
+					}
+					
+					//round finalPrice UP to the nearest Integer
+					finalPrice = Math.ceil(finalPrice);
+					
+					if (AhoyCoin.playerList.getString(playerName + ".trademode").equalsIgnoreCase("buy"))
+					{
+						//query buy price
+						player.sendMessage(plugin.pre + "Buy " + quantity.toString() + " " + itemName + "(s) from " + townName + " for " + finalPrice + "?");
+					} else if (AhoyCoin.playerList.getString(playerName + ".trademode").equalsIgnoreCase("sell")) {
+						//query sell price
+						player.sendMessage(plugin.pre + "Sell " + quantity.toString() + " " + itemName + "(s) to " + townName + " for " + finalPrice + "?");
+					}
 				}
 			}
 		} else if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -148,15 +182,23 @@ public class Event_onBlockClick implements Listener
 				if (sign.getLine(0).equalsIgnoreCase(ChatColor.BLUE + "[Vendor]"))
 				{
 					Player player = event.getPlayer();
+					boolean buymode = AhoyCoin.playerList.getString(player.getName() + ".trademode").equalsIgnoreCase("buy");
 					// player.sendMessage(plugin.pre + "You right clicked a sign. Well-fucking-done.");
 					String [] signText = sign.getLines();
 					String townName = signText[1];
 					String itemName = signText[2];
 					Integer quantity = Integer.parseInt(signText[3]);
 					Integer curstock = AhoyCoin.towns.getInt(townName + ".items." + itemName + ".curstock");
+					Integer maxstock = -1;
 					double tax = AhoyCoin.towns.getInt(townName + ".tax");
 					double preTax = -1;
 					double finalPrice = -1;
+					
+					if (!AhoyCoin.playerList.getKeys(false).contains(player.getName()))
+					{
+						AhoyCoin.playerList.set(player.getName() + ".trademode", "buy");
+						//player does not exist - create new buy mode
+					}
 					
 					if (!AhoyCoin.towns.getKeys(true).contains(townName + ".items." + itemName)) // if item isn't created
 					{
@@ -172,22 +214,35 @@ public class Event_onBlockClick implements Listener
 						finalPrice = preTax + ((preTax / 100) * tax);
 					}
 					
-					if (quantity > curstock)
+					if (AhoyCoin.towns.getConfigurationSection(townName + ".items." + itemName).getKeys(false).contains("maxstock"))
+					{
+						maxstock = AhoyCoin.towns.getInt(townName + ".items." + itemName + ".maxstock");
+					} else {
+						maxstock = AhoyCoin.basePrices.getInt(itemName + ".maxstock");
+					}
+					
+					if (!buymode)
+					{
+						finalPrice = (finalPrice / 100) * AhoyCoin.config.getInt("defaults.sell_percent");
+					}
+					
+					//round finalPrice UP to the nearest Integer
+					finalPrice = Math.ceil(finalPrice);
+					
+					Economy econ = null;
+					RegisteredServiceProvider<Economy> economyProvider = plugin.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+					if (economyProvider != null)
+					{
+						econ = economyProvider.getProvider();
+					}
+					
+					if (quantity > curstock && buymode)
 					{
 						// Sorry - we're currently out of stock! Our next shipment of X item(s) comes in X days.
 						//player.sendMessage(plugin.pre + "Buying quantity larger than current stock.");
 						//player.sendMessage(plugin.pre + "I'll sort this out later.");
 						player.sendMessage(plugin.pre + "Sorry! We're currently out of stock!");
-					} else {
-						
-						
-						Economy econ = null;
-						RegisteredServiceProvider<Economy> economyProvider = plugin.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-						if (economyProvider != null)
-						{
-							econ = economyProvider.getProvider();
-						}
-						
+					} else if (buymode) {
 						if ((double) econ.getBalance(player.getName()) >= finalPrice)
 						{
 							ItemStack items = new ItemStack(Material.getMaterial(itemName.toUpperCase()), quantity);
@@ -202,10 +257,46 @@ public class Event_onBlockClick implements Listener
 						} else {
 							player.sendMessage(plugin.pre + "You don't have enough money! You've only got " + econ.getBalance(player.getName()) + "!");
 						}
-						
-
-						// player.sendMessage(plugin.pre + "In seriousness, you took " + quantity.toString() + " of the available " + curstock.toString() + " stock.");
-						// player.sendMessage(plugin.pre + "Current stock level is now " + newStock.toString() + ".");
+					} else if (!buymode) {
+						if (player.getItemInHand().getType().toString().equalsIgnoreCase(itemName))
+						{
+							Integer amountHeld = player.getItemInHand().getAmount();
+							
+							if (!(amountHeld < quantity))
+							{
+								//player has enough of item to sell - so sell it!
+								Integer newPlayerAmount = amountHeld - quantity;
+								
+								//set the shop's stock
+								if (!((curstock + quantity) >= maxstock))
+								{
+									AhoyCoin.towns.set(townName + ".items." + itemName + ".curstock", (curstock + quantity));
+								} else {
+									AhoyCoin.towns.set(townName + ".items." + itemName + ".curstock", maxstock);
+								}
+								
+								AhoyCoin.saveYamls();
+								
+								//remove the item(s) from the player
+								if (newPlayerAmount == 0)
+								{
+									player.setItemInHand(null);
+								} else {
+									player.getItemInHand().setAmount(newPlayerAmount);
+								}
+								player.updateInventory();
+								
+								//give the player the money
+								econ.depositPlayer(player.getName(), finalPrice);
+								
+								player.sendMessage(plugin.pre + "You sold " + quantity.toString() + " " + itemName + "(s) to " + townName + " for " + String.valueOf(finalPrice) + ".");
+								player.sendMessage(plugin.pre + "Your new balance is " + econ.getBalance(player.getName()) + ".");
+							} else {
+								player.sendMessage(plugin.pre + "You don't have enough " + itemName + "s to sell to this shop! You need at least " + quantity.toString() + ".");
+							}
+						} else {
+							player.sendMessage(plugin.pre + "You can't sell that here! Hold what you want to sell in your hand!");
+						}
 					}
 				} else if (sign.getLine(0).equalsIgnoreCase("[Vendor]")) {
 					Player player = event.getPlayer();

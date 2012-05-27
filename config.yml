@@ -2,6 +2,7 @@ settings:
   debug: false
 defaults:
   tax: 10
+  sell_percent: 33
 phrases:
   town_no_exist: 'Town \"%town\" does not exist.'
   item_no_exist: 'Item \"%item\" does not exist.'
