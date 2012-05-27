@@ -5,10 +5,11 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class ProjectsCommand {
+public class ProjectsCommand implements CommandExecutor {
 
 	private AhoyCoin plugin;
 	
