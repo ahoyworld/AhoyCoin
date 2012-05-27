@@ -69,10 +69,10 @@ cactus:
   replenishtime:
   replenishamount:
 cake:
-  price: 45386.50
+  price: 45387
   maxstock: 32
-  replenishtime:504
-  replenishamount:1
+  replenishtime: 504
+  replenishamount: 1
 charcoal:
   price: 1050
   maxstock: 32
@@ -81,8 +81,8 @@ charcoal:
 chest:
   price: 2000
   maxstock: 4
-  replenishtime:72
-  replenishamount:1
+  replenishtime: 72
+  replenishamount: 1
 clay_block:
   price: 2000
   maxstock: 0
@@ -109,7 +109,7 @@ compass:
   replenishtime:
   replenishamount:
 cooked_fish:
-  price: 666.25
+  price: 666
   maxstock: 32
   replenishtime:
   replenishamount:
@@ -139,7 +139,7 @@ fence:
   replenishtime:
   replenishamount:
 fishing_rod:
-  price: 987.50
+  price: 988
   maxstock: 1
   replenishtime:
   replenishamount:
@@ -149,22 +149,22 @@ furnace:
   replenishtime:
   replenishamount:
 glass:
-  price: 1156.25
+  price: 1156
   maxstock: 32
   replenishtime:
   replenishamount:
 glowstone_dust:
   price: 4096
   maxstock: 32
-  replenishtime:72
-  replenishamount:1
+  replenishtime: 72
+  replenishamount: 1
 gold_chestplate:
-  price: 13600.50
+  price: 13600
   maxstock: 2
   replenishtime:
   replenishamount:
 gold_helmet:
-  price: 8500.31
+  price: 8500
   maxstock: 2
   replenishtime:
   replenishamount:
@@ -174,58 +174,58 @@ gold_record:
   replenishtime:
   replenishamount:
 gold_axe:
-  price: 5225.19
+  price: 5225
   maxstock: 1
   replenishtime:
   replenishamount:
 gold_block:
-  price: 15300.56
+  price: 15301
   maxstock: 1
   replenishtime:
   replenishamount:
 gold_boots:
-  price: 6800.25
+  price: 6800
   maxstock: 2
   replenishtime:
   replenishamount:
 gold_hoe:
-  price: 3525.13
+  price: 3525
   maxstock: 1
   replenishtime:
   replenishamount:
 gold_ingot:
-  price: 1700.06
+  price: 1700
   maxstock: 32
   replenishtime:
   replenishamount:
 gold_leggings:
-  price: 11900.44
+  price: 11900
   maxstock: 2
   replenishtime:
   replenishamount:
 gold_ore:
-  price: 1043.81
+  price: 1043
   maxstock: 0
   replenishtime:
   replenishamount:
 gold_pickaxe:
-  price: 5225.19
+  price: 5225
   maxstock: 1
   replenishtime:
   replenishamount:
 gold_spade:
-  price: 1825.06
+  price: 1825
   maxstock: 1
   replenishtime:
   replenishamount:
 gold_sword:
-  price: 3462.63
+  price: 3462
   maxstock: 1
   replenishtime:
   replenishamount:
 gravel:
-  price:1
-  maxstock:6400
+  price: 1
+  maxstock: 6400
   replenishtime:
   replenishamount:
 green_record:
@@ -234,85 +234,85 @@ green_record:
   replenishtime:
   replenishamount:
 grilled_pork:
-  price:500
-  maxstock:640
-  replenishtime:7
-  replenishamount:2
+  price: 500
+  maxstock: 640
+  replenishtime: 7
+  replenishamount: 2
 ink_sack:
-  price:20
+  price: 20
   maxstock: 640
   replenishtime:72
   replenishamount:1
 iron_axe:
-  price:20,600
+  price:20600
   maxstock:6
-  replenishtime:72
-  replenishamount:2
+  replenishtime: 72
+  replenishamount: 2
 iron_boots:
-  price:27,201.00
-  maxstock:6
-  replenishtime:72
-  replenishamount:2
+  price: 27201
+  maxstock: 6
+  replenishtime: 72
+  replenishamount: 2
 iron_chestplate:
-  price:54,402.00
-  maxstock:6
-  replenishtime:72
-  replenishamount:1
+  price: 54402
+  maxstock: 6
+  replenishtime: 72
+  replenishamount: 1
 iron_door:
-  price:40,801.50
-  maxstock:10
-  replenishtime:72
-  replenishamount:5
+  price: 40802
+  maxstock: 10
+  replenishtime: 72
+  replenishamount: 5
 iron_helmet:
-  price:34,001.25
-  maxstock:6
-  replenishtime:72
-  replenishamount:1
+  price: 34001
+  maxstock: 6
+  replenishtime: 72
+  replenishamount: 1
 iron_hoe:
-  price:13,725.50
-  maxstock:6
-  replenishtime:72
-  replenishamount:2
+  price: 13726
+  maxstock: 6
+  replenishtime: 72
+  replenishamount: 2
 iron_ingot:
-  price:6,800
-  maxstock:160
-  replenishtime:72
-  replenishamount:16
+  price: 6800
+  maxstock: 160
+  replenishtime: 72
+  replenishamount: 16
 iron_leggings:
-  price:47,601.75
-  maxstock:6
-  replenishtime:72
-  replenishamount:1
+  price: 47602
+  maxstock: 6
+  replenishtime: 72
+  replenishamount: 1
 iron_ore:
-  price:6,144.00
-  maxstock:6400
-  replenishtime:216
-  replenishamount:0
+  price: 6144
+  maxstock: 6400
+  replenishtime: 216
+  replenishamount: 0
 iron_pickaxe:
-  price:21,500
-  maxstock:6
-  replenishtime:72
-  replenishamount:2
+  price: 21500
+  maxstock: 6
+  replenishtime: 72
+  replenishamount: 2
 iron_spade:
-  price:6,930
-  maxstock:6
-  replenishtime:72
-  replenishamount:2
+  price: 6930
+  maxstock: 6
+  replenishtime: 72
+  replenishamount: 2
 iron_sword:
-  price:13,663.00
-  maxstock:6
-  replenishtime:72
-  replenishamount:2
+  price:13663
+  maxstock: 6
+  replenishtime: 72
+  replenishamount: 2
 ladder:
   price:
   maxstock:
   replenishtime:
   replenishamount:
 lapis_ore:
-  price:800.00
-  maxstock:64
-  replenishtime:1
-  replenishamount:1
+  price: 800
+  maxstock: 64
+  replenishtime: 1
+  replenishamount: 1
 leather:
   price:
   maxstock:
