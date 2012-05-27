@@ -1,58 +1,58 @@
 apple:
   price: 50
-  maxstock: 12
-  replenishtime: 1
+  maxstock: 120
+  replenishtime: 7
   replenishamount: 1
 arrow:
   price: 15
-  maxstock: 256
+  maxstock: 2560
   replenishtime: 72
   replenishamount: 64
 bed:
   price: 2250
-  maxstock: 3
-  replenishtime: 72
+  maxstock: 64
+  replenishtime: 1
   replenishamount: 1
 boat:
   price: 2500
-  maxstock: 2
+  maxstock: 20
   replenishtime: 216
   replenishamount: 1
 bone:
   price: 100
-  maxstock: 0
+  maxstock: 00
   replenishtime: 0
   replenishamount: 0
 book:
   price: 50
-  maxstock: 6
+  maxstock: 600
   replenishtime: 216
   replenishamount: 2
 bookshelf:
   price: 450
-  maxstock: 6
+  maxstock: 600
   replenishtime: 216
   replenishamount: 1
 bow:
   price: 1000
-  maxstock: 4
-  replenishtime: 216
-  replenishamount: 1
+  maxstock: 40
+  replenishtime: 72
+  replenishamount: 4
 bowl:
   price: 100
-  maxstock: 5
+  maxstock: 500
   replenishtime: 216
   replenishamount: 5
 bread:
-  price: 750
+  price: 75
   maxstock: 64
-  replenishtime: 216
-  replenishamount: 8
+  replenishtime: 7
+  replenishamount: 1
 brick:
   price: 100
-  maxstock: 20
-  replenishtime: 216
-  replenishamount: 4
+  maxstock: 200
+  replenishtime: 360
+  replenishamount: 40
 brown_mushroom:
   price: 1000
   maxstock: 5
@@ -64,45 +64,25 @@ bucket:
   replenishtime:
   replenishamount:
 cactus:
-  price: 10
-  maxstock: 1
+  price: 2
+  maxstock: 1000
   replenishtime:
   replenishamount:
 cake:
   price: 45386.50
   maxstock: 32
-  replenishtime:
-  replenishamount:
-chainmail_boots:
-  price: 400
-  maxstock: 2
-  replenishtime:
-  replenishamount:
-chainmail_chestplate:
-  price: 500
-  maxstock: 2
-  replenishtime:
-  replenishamount:
-chainmail_helmet:
-  price: 450
-  maxstock: 2
-  replenishtime:
-  replenishamount:
-chainmail_leggings:
-  price: 500
-  maxstock: 2
-  replenishtime:
-  replenishamount:
+  replenishtime:504
+  replenishamount:1
 charcoal:
   price: 1050
-  maxstock: 0
+  maxstock: 32
   replenishtime:
   replenishamount:
 chest:
   price: 2000
   maxstock: 4
-  replenishtime:
-  replenishamount:
+  replenishtime:72
+  replenishamount:1
 clay_block:
   price: 2000
   maxstock: 0
