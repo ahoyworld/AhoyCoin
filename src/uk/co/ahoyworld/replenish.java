@@ -2,6 +2,7 @@ package uk.co.ahoyworld;
 
 public class replenish implements Runnable
 {
+	@SuppressWarnings("unused")
 	private AhoyCoin plugin;
 	public static int taskID;
 	public replenish(AhoyCoin plugin)

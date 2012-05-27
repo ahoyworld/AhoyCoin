@@ -6,7 +6,7 @@ public class Phrases {
 	
 	public Phrases(AhoyCoin plugin)
 	{
-		this.plugin = plugin;
+		Phrases.plugin = plugin;
 	}
 	
 	/*
@@ -18,10 +18,10 @@ public class Phrases {
 		plugin.loadYamls();
 		//if unsuccessful, return error and stop. else...
 		
-		for (String nodeName : plugin.config.getConfigurationSection("phrases").getKeys(false))
+		for (String nodeName : AhoyCoin.config.getConfigurationSection("phrases").getKeys(false))
 		{
 			plugin.phrases.clear();
-			plugin.phrases.put(nodeName, plugin.config.get("phrases." + nodeName).toString());
+			plugin.phrases.put(nodeName, AhoyCoin.config.get("phrases." + nodeName).toString());
 		}
 	}
 }

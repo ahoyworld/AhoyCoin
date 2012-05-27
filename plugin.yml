@@ -8,8 +8,16 @@ commands:
     usage: /AC [town, priceset, pricereset]
     permission: ahoycoin.main
     permission-message: Naughty.
+  project:
+    description: Manage AhoyCoin projects.
+    usage: /project [list, info, add, remove]
+    permission: ahoycoin.project
+    permission-message: Naughty.
     
 permissions:
   ahoycoin.main:
     description: Gives access to the AC command
+    default: op
+  ahoycoin.project:
+    description: Gives access to the Project command
     default: op

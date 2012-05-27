@@ -11,6 +11,7 @@ import java.io.OutputStream;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,10 +23,14 @@ public class AhoyCoin extends JavaPlugin {
 	static File configFile;
 	static File townsFile;
     static File basePriceFile;
+    static File projectsFile;
     static FileConfiguration config;
     static FileConfiguration towns;
     static FileConfiguration basePrices;
+    static FileConfiguration projects;
     Logger log;
+    
+    private ProjectsCommand projectsExecutor;
     
 	public static Date now = new Date();
 	public static String [] signText = new String [4];
@@ -46,19 +51,16 @@ public class AhoyCoin extends JavaPlugin {
     
     public void onEnable()
     {
-    	// get "replenishtimer" from items in towns.yml
-    	// if > 0, start a thread running with the value as a start offset
-    	// 		Say an item replenishes every 200 ticks. After 50 ticks, the server restarts and 50 is saved as replenishtimer
-    	//		onEnable, set the initial delay (initial, regular repeat time) to (replenishtime - replenishtimer (i.e. 200 - 50)).
-    	//		Using this technique, the replenishment will keep the position of longer replenishment times
-    	
     	new Event_onBlockClick(this);
+    	projectsExecutor = new ProjectsCommand(this);
+    	getCommand("project").setExecutor((CommandExecutor) projectsExecutor);
     	
-    	// Phrases.getPhrases();
+    	Phrases.getPhrases();
     	
         configFile = new File(getDataFolder(), "config.yml");
         townsFile = new File(getDataFolder(), "towns.yml");
         basePriceFile = new File(getDataFolder(), "basePrice.yml");
+        projectsFile = new File(getDataFolder(), "projects.yml");
      
         try
         {
@@ -70,6 +72,7 @@ public class AhoyCoin extends JavaPlugin {
         config = new YamlConfiguration();
         towns = new YamlConfiguration();
         basePrices = new YamlConfiguration();
+        projects = new YamlConfiguration();
 
         loadYamls();
         
@@ -110,6 +113,7 @@ public class AhoyCoin extends JavaPlugin {
             config.save(configFile);
             towns.save(townsFile);
             basePrices.save(basePriceFile);
+            projects.save(projectsFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -122,6 +126,7 @@ public class AhoyCoin extends JavaPlugin {
             config.load(configFile);
             towns.load(townsFile);
             basePrices.load(basePriceFile);
+            projects.load(projectsFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -143,6 +148,11 @@ public class AhoyCoin extends JavaPlugin {
         {
             basePriceFile.getParentFile().mkdirs();
             copy(getResource("basePrice.yml"), basePriceFile);
+        }
+        if (!projectsFile.exists())
+        {
+        	projectsFile.getParentFile().mkdirs();
+        	copy(getResource("projects.yml"), projectsFile);
         }
     }
  
