@@ -156,8 +156,8 @@ glass:
 glowstone_dust:
   price: 4096
   maxstock: 32
-  replenishtime:
-  replenishamount:
+  replenishtime:72
+  replenishamount:1
 gold_chestplate:
   price: 13600.50
   maxstock: 2
@@ -244,80 +244,75 @@ ink_sack:
   replenishtime:72
   replenishamount:1
 iron_axe:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
-iron_block:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price:20,600
+  maxstock:6
+  replenishtime:72
+  replenishamount:2
 iron_boots:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price:27,201.00
+  maxstock:6
+  replenishtime:72
+  replenishamount:2
 iron_chestplate:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price:54,402.00
+  maxstock:6
+  replenishtime:72
+  replenishamount:1
 iron_door:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price:40,801.50
+  maxstock:10
+  replenishtime:72
+  replenishamount:5
 iron_helmet:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price:34,001.25
+  maxstock:6
+  replenishtime:72
+  replenishamount:1
 iron_hoe:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price:13,725.50
+  maxstock:6
+  replenishtime:72
+  replenishamount:2
 iron_ingot:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price:6,800
+  maxstock:160
+  replenishtime:72
+  replenishamount:16
 iron_leggings:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price:47,601.75
+  maxstock:6
+  replenishtime:72
+  replenishamount:1
 iron_ore:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price:6,144.00
+  maxstock:6400
+  replenishtime:216
+  replenishamount:0
 iron_pickaxe:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price:21,500
+  maxstock:6
+  replenishtime:72
+  replenishamount:2
 iron_spade:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price:6,930
+  maxstock:6
+  replenishtime:72
+  replenishamount:2
 iron_sword:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price:13,663.00
+  maxstock:6
+  replenishtime:72
+  replenishamount:2
 ladder:
   price:
   maxstock:
   replenishtime:
   replenishamount:
 lapis_ore:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price:800.00
+  maxstock:64
+  replenishtime:1
+  replenishamount:1
 leather:
   price:
   maxstock:
