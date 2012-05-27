@@ -54,7 +54,7 @@ public class AhoyCoin extends JavaPlugin {
     	projectsExecutor = new ProjectsCommand(this);
     	getCommand("project").setExecutor(projectsExecutor);
     	
-    	Phrases.getPhrases();
+    	//Phrases.getPhrases();
     	
         configFile = new File(getDataFolder(), "config.yml");
         townsFile = new File(getDataFolder(), "towns.yml");

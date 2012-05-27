@@ -92,6 +92,7 @@ public class ProjectsCommand implements CommandExecutor {
 					AhoyCoin.projects.set(newProjectName + ".started", dfgMT.format(new Date()));
 					AhoyCoin.projects.set(newProjectName + ".status", "inactive");
 
+					AhoyCoin.saveYamls();
 		    		
 					player.sendMessage(plugin.pre + "Project \"" + newProjectName + "\" created!");
 					return true;
@@ -126,6 +127,9 @@ public class ProjectsCommand implements CommandExecutor {
 				if (AhoyCoin.projects.getKeys(false).contains(project))
 				{
 					AhoyCoin.projects.set(project, null);
+					
+					AhoyCoin.saveYamls();
+
 					player.sendMessage(plugin.pre + "Project \"" + project + "\" deleted.");
 					return true;
 				} else {
@@ -193,6 +197,9 @@ public class ProjectsCommand implements CommandExecutor {
 						if (AhoyCoin.projects.getConfigurationSection(project + ".resources").getKeys(false).contains(resource))
 						{
 							AhoyCoin.projects.set(project + ".resources." + resource, null);
+							
+							AhoyCoin.saveYamls();
+
 							player.sendMessage(plugin.pre + "Resource \"" + resource + "\" removed for project \"" + project + "\".");
 							return true;
 						} else {
