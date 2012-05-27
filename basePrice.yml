@@ -224,8 +224,8 @@ gold_sword:
   replenishtime:
   replenishamount:
 gravel:
-  price: 
-  maxstock:
+  price:1
+  maxstock:6400
   replenishtime:
   replenishamount:
 green_record:
@@ -234,15 +234,15 @@ green_record:
   replenishtime:
   replenishamount:
 grilled_pork:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price:500
+  maxstock:640
+  replenishtime:7
+  replenishamount:2
 ink_sack:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price:20
+  maxstock: 640
+  replenishtime:72
+  replenishamount:1
 iron_axe:
   price:
   maxstock:
