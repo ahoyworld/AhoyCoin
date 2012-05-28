@@ -238,7 +238,6 @@ public class AhoyCoin extends JavaPlugin {
     		ranForTicks = (int) (ranForSecs * 20);
     		log.info("Task ID: " + i.toString() + ", Town: " + townName + ", Item: " + itemName + ".");
     		
-			/*
     		if (towns.getKeys(true).contains(townName + ".items." + itemName + ".replenishtime"))
     		{
     			replenishTime = towns.getInt(townName + ".items." + itemName + ".replenishtime");
@@ -246,6 +245,7 @@ public class AhoyCoin extends JavaPlugin {
     			replenishTime = basePrices.getInt(itemName + ".replenishtime"); 
     		}
     		
+    		/*
     		if (ranForTicks > (replenishTime * 24000))
     		{
     			timesRun = ranForTicks / 24000;
@@ -280,7 +280,7 @@ public class AhoyCoin extends JavaPlugin {
 				}
 			} else if (ranForTicks > (replenishTime * 24000)) {
 				//treat normally - no need to have replenishProgress in the equation
-				double timesRun = ranForTicks / 24000;
+				timesRun = ranForTicks / 24000;
 				timesRunRounded = (int)Math.floor(timesRun);
 				finalTicks = (ranForTicks - (timesRunRounded * 24000));
 			} else {

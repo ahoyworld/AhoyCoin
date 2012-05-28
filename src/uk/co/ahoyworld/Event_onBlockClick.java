@@ -40,7 +40,7 @@ public class Event_onBlockClick implements Listener
 				{
 					Player player = event.getPlayer();
 					// player.sendMessage("Creating sign...");
-					final String [] signText = sign.getLines();
+					String [] signText = sign.getLines();
 					if (!(signText[3].equals("")))
 					{
 						String townName = signText[1];
@@ -141,6 +141,8 @@ public class Event_onBlockClick implements Listener
 						//player does not exist - create new buy mode
 					}
 					
+					AhoyCoin.saveYamls();
+					
 					boolean buymode = AhoyCoin.playerList.getString(player.getName() + ".trademode").equalsIgnoreCase("buy");
 					
 					if (!AhoyCoin.towns.getKeys(true).contains(townName + ".items." + itemName)) // if item isn't created
@@ -199,6 +201,8 @@ public class Event_onBlockClick implements Listener
 						//player does not exist - create new buy mode
 					}
 					
+					AhoyCoin.saveYamls();
+					
 					boolean buymode = AhoyCoin.playerList.getString(player.getName() + ".trademode").equalsIgnoreCase("buy");
 					
 					if (!AhoyCoin.towns.getKeys(true).contains(townName + ".items." + itemName)) // if item isn't created
@@ -239,17 +243,14 @@ public class Event_onBlockClick implements Listener
 					
 					if (quantity > curstock && buymode)
 					{
-						// Sorry - we're currently out of stock! Our next shipment of X item(s) comes in X days.
-						//player.sendMessage(plugin.pre + "Buying quantity larger than current stock.");
-						//player.sendMessage(plugin.pre + "I'll sort this out later.");
 						player.sendMessage(plugin.pre + "Sorry! We're currently out of stock!");
 					} else if (buymode) {
 						if ((double) econ.getBalance(player.getName()) >= finalPrice)
 						{
+							//NEED TO TAKE INTO ACCOUNT IF INVEVNTORY IS FULL!
 							ItemStack items = new ItemStack(Material.getMaterial(itemName.toUpperCase()), quantity);
 							econ.withdrawPlayer(player.getName(), finalPrice);
 							player.getInventory().addItem(items);
-							player.updateInventory();
 							Integer newStock = curstock - quantity;
 							AhoyCoin.towns.set(signText[1] + ".items." + signText[2] + ".curstock", newStock);
 							AhoyCoin.saveYamls();
@@ -281,10 +282,20 @@ public class Event_onBlockClick implements Listener
 								//remove the item(s) from the player
 								if (newPlayerAmount == 0)
 								{
-									player.setItemInHand(null);
+									ItemStack replaceItemWith = new ItemStack(Material.AIR, 1);
+									player.setItemInHand(replaceItemWith);
+									
+									//int itemSlot = player.getInventory().getHeldItemSlot();
+									//player.getInventory().setItem(itemSlot, null);
+									
+									//player.setItemInHand(null);
+									
+									//player.getInventory().remove(itemToRemove);
 								} else {
-									player.getItemInHand().setAmount(newPlayerAmount);
+									player.getInventory().removeItem(new ItemStack(Material.getMaterial(itemName.toUpperCase()), quantity));
+									//player.getItemInHand().setAmount(newPlayerAmount);
 								}
+								
 								player.updateInventory();
 								
 								//give the player the money
