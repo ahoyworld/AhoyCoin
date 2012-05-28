@@ -212,6 +212,7 @@ public class AhoyCoin extends JavaPlugin {
     	Integer i = 2;
     	Long ranForSecs = -1L;
     	Integer ranForTicks = -1;
+		Integer replenishProgress = -1;
     	String townName = "";
     	String itemName = "";
     	Integer replenishTime = -1;
@@ -225,6 +226,7 @@ public class AhoyCoin extends JavaPlugin {
     	{
     		//Long timeStamp = getTimeStamp();
     		Integer timeStamp = (int) (System.currentTimeMillis() / 1000L);
+			replenishProgress = towns.getInt(townName + ".items." + itemName + ".replenishtimer");
     		String [] taskInfo = townNameTime.split(",");
     		townName = taskInfo[0];
     		itemName = taskInfo[1];
@@ -236,6 +238,7 @@ public class AhoyCoin extends JavaPlugin {
     		ranForTicks = (int) (ranForSecs * 20);
     		log.info("Task ID: " + i.toString() + ", Town: " + townName + ", Item: " + itemName + ".");
     		
+			/*
     		if (towns.getKeys(true).contains(townName + ".items." + itemName + ".replenishtime"))
     		{
     			replenishTime = towns.getInt(townName + ".items." + itemName + ".replenishtime");
@@ -259,6 +262,32 @@ public class AhoyCoin extends JavaPlugin {
     			//change up. add on to the timer!
         		finalTicks = (ranForTicks - (timesRunRounded * 24000));
     		}
+			*/
+			
+			//NEW CODE - DEBUG IT!
+			if (replenishProgress > 0)
+			{
+				if ((ranForTicks + replenishProgress) > replenishTime)
+				{
+					//one replenishment has already been done!
+					timesRun = (ranForTicks + replenishProgress) / 24000;
+					timesRunRounded = (int)Math.floor(timesRun);
+					finalTicks = (replenishProgress + ranForTicks) - (timesRunRounded * 24000);
+				} else {
+					//no replenishment has been done yet.
+					timesRun = 0;
+					finalTicks = (replenishProgress + ranForTicks);
+				}
+			} else if (ranForTicks > (replenishTime * 24000)) {
+				//treat normally - no need to have replenishProgress in the equation
+				double timesRun = ranForTicks / 24000;
+				timesRunRounded = (int)Math.floor(timesRun);
+				finalTicks = (ranForTicks - (timesRunRounded * 24000));
+			} else {
+				timesRun = 0;
+				finalTicks = ranForTicks;
+			}
+			
     		//finalTicks = ranForTicks - extraneousData;
     		log.info("replenishTime: " + replenishTime.toString());
     		log.info("ranForTicks: " + ranForTicks.toString());
