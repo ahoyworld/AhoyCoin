@@ -182,7 +182,6 @@ public class Event_onBlockClick implements Listener
 				if (sign.getLine(0).equalsIgnoreCase(ChatColor.BLUE + "[Vendor]"))
 				{
 					Player player = event.getPlayer();
-					boolean buymode = AhoyCoin.playerList.getString(player.getName() + ".trademode").equalsIgnoreCase("buy");
 					// player.sendMessage(plugin.pre + "You right clicked a sign. Well-fucking-done.");
 					String [] signText = sign.getLines();
 					String townName = signText[1];
@@ -200,6 +199,8 @@ public class Event_onBlockClick implements Listener
 						//player does not exist - create new buy mode
 					}
 					
+					boolean buymode = AhoyCoin.playerList.getString(player.getName() + ".trademode").equalsIgnoreCase("buy");
+					
 					if (!AhoyCoin.towns.getKeys(true).contains(townName + ".items." + itemName)) // if item isn't created
 					{
 						AhoyCoin.towns.set(townName + ".items." + itemName + ".curstock", AhoyCoin.basePrices.getInt(itemName + ".maxstock"));
@@ -213,7 +214,7 @@ public class Event_onBlockClick implements Listener
 						preTax = AhoyCoin.basePrices.getInt(itemName + ".price") * quantity;
 						finalPrice = preTax + ((preTax / 100) * tax);
 					}
-					
+										
 					if (AhoyCoin.towns.getConfigurationSection(townName + ".items." + itemName).getKeys(false).contains("maxstock"))
 					{
 						maxstock = AhoyCoin.towns.getInt(townName + ".items." + itemName + ".maxstock");

@@ -241,11 +241,11 @@ grilled_pork:
 ink_sack:
   price: 20
   maxstock: 640
-  replenishtime:72
-  replenishamount:1
+  replenishtime: 72
+  replenishamount: 1
 iron_axe:
-  price:20600
-  maxstock:6
+  price: 20600
+  maxstock: 6
   replenishtime: 72
   replenishamount: 2
 iron_boots:
@@ -299,7 +299,7 @@ iron_spade:
   replenishtime: 72
   replenishamount: 2
 iron_sword:
-  price:13663
+  price: 13663
   maxstock: 6
   replenishtime: 72
   replenishamount: 2
