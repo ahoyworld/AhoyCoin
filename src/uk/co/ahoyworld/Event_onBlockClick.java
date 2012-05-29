@@ -17,6 +17,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 public class Event_onBlockClick implements Listener 
 {	
 	private AhoyCoin plugin;
+	//private ProjectsCommand project;
 	
 	//public ArrayList<String> townNameTime = new ArrayList<String>();
 	//String townNameTime = "";
@@ -28,6 +29,7 @@ public class Event_onBlockClick implements Listener
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void blockLeftClick (PlayerInteractEvent event)
 	{		
@@ -37,12 +39,66 @@ public class Event_onBlockClick implements Listener
 			if (bs instanceof Sign)
 			{
 				Sign sign = (Sign) bs;
+				String[] signText = sign.getLines();
+				
+				
+				
+				if (sign.getLine(0).equalsIgnoreCase("[Project]"))
+				{
+					Player player = event.getPlayer();
+					event.setCancelled(true); // <- This is important as you destroy the sign by activating if your in creative. But maybe there's a better place for it...
+					//left-clicked un-initiated project sign
+					//verify and create it!
+					String projectName = signText[1];
+					String itemName = signText[2].toLowerCase();
+					Integer targetQuantity = Integer.parseInt(signText[3]);
+					if (plugin.projects.getKeys(false).contains(projectName))
+					{
+						//project name verified
+						if (plugin.basePrices.getKeys(false).contains(itemName))
+						{
+							if (targetQuantity > 0)
+							{
+								//item name verified
+								//move on to include a quantity check in here somewhere (cannot exceed 99,999 etc)
+								plugin.projects.set(projectName + ".isComplete", false);
+								plugin.projects.set(projectName + ".items." + itemName + ".amount", 0);
+								plugin.projects.set(projectName + ".items." + itemName + ".target", targetQuantity);
+								sign.setLine(0, ChatColor.RED + "[Project]");
+								sign.setLine(3, "0 / " + targetQuantity.toString());
+								sign.update();
+								plugin.saveYamls();
+							}
+						} else {
+							//item does not exist
+							player.sendMessage(plugin.pre + "Item \"" + itemName + "\" does not exist!");
+						}
+					} else {
+						//project does not exist
+						player.sendMessage(plugin.pre + "Project \"" + projectName + "\" does not exist!");
+					}
+				} else if (sign.getLine(0).equalsIgnoreCase(ChatColor.RED + "[Project]")) 
+				{
+					event.setCancelled(true);
+					/*String projectName = sign.getLine(1);
+					Player player = event.getPlayer();
+						
+					String[] projectInfo = project.getProjectInfo(projectName);
+					
+					for (String str : projectInfo)
+					{
+						player.sendMessage(str);
+					}*/
+				}
+				
+				
+				
 				if (sign.getLine(0).equalsIgnoreCase("[Vendor]"))
 				{
 					event.setCancelled(true); // <- This is important as you destroy the sign by activating if your in creative. But maybe there's a better place for it...
 					Player player = event.getPlayer();
 					// player.sendMessage("Creating sign...");
-					String [] signText = sign.getLines();
+					//String [] signText = sign.getLines();
 					if (!(signText[3].equals("")))
 					{
 						String townName = signText[1];
@@ -64,7 +120,19 @@ public class Event_onBlockClick implements Listener
 									// Ugly, UGLY code.
 									// Change this to get the specifically-set maxstock settings (in towns.yml) if available
 									// Also, use "if (!plugin.towns.getKeys(true).contains(townName + ".items." + itemName + ".curstock"))
-									if (plugin.towns.getConfigurationSection(townName).getKeys(false).contains("items"))
+									
+									if (!plugin.towns.getKeys(true).contains(townName + ".items." + itemName + ".curstock"))
+									{
+										Integer maxstock = plugin.basePrices.getInt(itemName + ".maxstock");
+										plugin.towns.set(townName + ".items." + itemName + ".curstock", maxstock);
+										plugin.saveYamls();
+										player.sendMessage(plugin.pre + "Sign created!");
+									} else {
+										player.sendMessage(plugin.pre + "Sign created! (Stock already assigned");
+									}
+									
+									
+									/*if (plugin.towns.getConfigurationSection(townName).getKeys(false).contains("items"))
 									{
 										if (plugin.towns.getConfigurationSection(townName + ".items").getKeys(false).contains(itemName))
 										{
@@ -88,7 +156,9 @@ public class Event_onBlockClick implements Listener
 										plugin.towns.set(townName + ".items." + itemName + ".curstock", maxstock);
 										plugin.saveYamls();
 										player.sendMessage(plugin.pre + "Sign created!");
-									}
+									} */
+									
+									
 									Integer replenishTime = -1;
 									if (plugin.towns.getKeys(true).contains(townName + ".items." + itemName + ".replenishTime"))
 									{
@@ -121,7 +191,7 @@ public class Event_onBlockClick implements Listener
 					event.setCancelled(true);
 					Player player = event.getPlayer();
 					String playerName = player.getName();
-					String [] signText = sign.getLines();
+					//String [] signText = sign.getLines();
 					String townName = signText[1];
 					String itemName = signText[2].toLowerCase();
 					Integer quantity = Integer.parseInt(signText[3]);
@@ -185,6 +255,65 @@ public class Event_onBlockClick implements Listener
 			if (bs instanceof Sign)
 			{
 				Sign sign = (Sign) bs;
+				
+				
+				if (sign.getLine(0).equalsIgnoreCase("[Project]"))
+				{
+					event.setCancelled(true);
+					Player player = event.getPlayer();
+					player.sendMessage(plugin.pre + "Left-click the sign first to create it!");
+				} 
+				else if (sign.getLine(0).equalsIgnoreCase(ChatColor.RED + "[Project]"))
+				{
+					event.setCancelled(true);
+					Player player = event.getPlayer();
+					ItemStack inHand = player.getInventory().getItemInHand();
+					String projectName = sign.getLine(1);
+					String itemNeeded = sign.getLine(2);
+					
+					if (inHand.getType().toString().equalsIgnoreCase(itemNeeded))
+					{
+						Integer amount = plugin.projects.getInt(projectName + ".items." + itemNeeded + ".amount");
+						Integer target = plugin.projects.getInt(projectName + ".items." + itemNeeded + ".target");
+						boolean isComplete = plugin.projects.getBoolean(projectName + ".isComplete");
+						
+						if (!isComplete)
+						{
+							Integer amountHeld = inHand.getAmount();
+							System.out.println("[AhoyCoin] amountHeld = " + amountHeld.toString());
+							amountHeld -= 1;
+							System.out.println("[AhoyCoin] newAmountHeld = " + amountHeld.toString());
+							Integer newAmount = amount + 1;
+							System.out.println("[AhoyCoin] newAmount = " + newAmount.toString());
+							
+							plugin.projects.set(projectName + ".items." + itemNeeded + ".amount", newAmount);
+							
+							if (amount == target)
+							{
+								plugin.projects.set(projectName + ".isComplete", true);
+								sign.setLine(3, "COMPLETED");
+							} else {
+								sign.setLine(3, amount.toString() + " / " + target.toString());
+							}
+							
+							sign.update();
+							plugin.saveYamls();
+							
+							//remove the item(s) from the player
+							if (amountHeld == 0)
+								inHand = null;
+							else
+								inHand.setAmount(amountHeld);
+							player.setItemInHand(inHand);
+						} else {
+							player.sendMessage(plugin.pre + "We've already got all the materials we need!");
+						}
+					} else {
+						player.sendMessage(plugin.pre + "You can't donate that.");
+					}
+				}
+				
+				
 				if (sign.getLine(0).equalsIgnoreCase(ChatColor.BLUE + "[Vendor]"))
 				{
 					event.setCancelled(true);
@@ -237,7 +366,7 @@ public class Event_onBlockClick implements Listener
 					}
 					
 					//round finalPrice UP to the nearest Integer
-					finalPrice = Math.ceil(finalPrice);
+					finalPrice = Math.ceil(finalPrice);	
 					
 					Economy econ = null;
 					RegisteredServiceProvider<Economy> economyProvider = plugin.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
@@ -259,6 +388,7 @@ public class Event_onBlockClick implements Listener
 							Integer newStock = curstock - quantity;
 							plugin.towns.set(signText[1] + ".items." + signText[2] + ".curstock", newStock);
 							plugin.saveYamls();
+							player.updateInventory();
 							player.sendMessage(plugin.pre + "You bought " + quantity.toString() + " " + itemName.toString() + "(s) from " + townName + " for " + String.valueOf(finalPrice) + ".");
 							player.sendMessage(plugin.pre + "Your new balance is " + econ.getBalance(player.getName()) + ".");
 						} else {

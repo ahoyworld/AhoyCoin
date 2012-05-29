@@ -23,9 +23,32 @@ public class ProjectsCommand implements CommandExecutor {
 	 * 2 - add [name]
 	 * 2 - info [name]
 	 * 2 - remove [name]
-	 * 4 - resource remove [projectname] [resourcename]
-	 * 5 - resource add [projectname] [resourcename] [quantity]
+	 * REMOVED 4 - resource remove [projectname] [resourcename]
+	 * REMOVED 5 - resource add [projectname] [resourcename] [quantity]
 	 */
+	
+	public String[] getProjectInfo(String project)
+	{
+		String[] getProjectInfo = {};
+		
+		if (plugin.projects.getKeys(false).contains(project))
+		{
+			String status = plugin.projects.getString(project + ".status");
+			String startTime = plugin.projects.getString(project + ".started");
+			
+			getProjectInfo[0] = plugin.pre + "Project Name: " + project;
+			getProjectInfo[1] = plugin.pre + "Status: " + status;
+			getProjectInfo[2] = plugin.pre + "Started: " + startTime;
+			getProjectInfo[3] = plugin.pre + "Resources: " + "Not yet implemeted";
+			System.out.println(getProjectInfo[0]);
+			return getProjectInfo;
+			//player.sendMessage(plugin.pre + "Town: " + "");
+		} else {
+			getProjectInfo[0] = plugin.pre + "Project \"" + project + "\" does not exist!";
+			System.out.println(getProjectInfo[0]);
+			return getProjectInfo;
+		}
+	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
 	{
@@ -104,20 +127,9 @@ public class ProjectsCommand implements CommandExecutor {
 			
 			if (args[0].equalsIgnoreCase("info"))
 			{
-				String project = args[1];
-				if (plugin.projects.getKeys(false).contains(project))
+				for (String str : getProjectInfo(args[1]))
 				{
-					String status = plugin.projects.getString(project + ".status");
-					String startTime = plugin.projects.getString(project + ".started");
-					player.sendMessage(plugin.pre + "Project Name: " + project);
-					//player.sendMessage(plugin.pre + "Town: " + "");
-					player.sendMessage(plugin.pre + "Status: " + status);
-					player.sendMessage(plugin.pre + "Started: " + startTime);
-					player.sendMessage(plugin.pre + "Resources: " + "Not yet implemeted");
-					return true;
-				} else {
-					player.sendMessage(plugin.pre + "Project \"" + project + "\" does not exist!");
-					return true;
+					player.sendMessage(str);
 				}
 			}
 			
