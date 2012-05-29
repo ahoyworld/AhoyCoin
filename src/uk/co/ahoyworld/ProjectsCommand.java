@@ -34,10 +34,10 @@ public class ProjectsCommand implements CommandExecutor {
 		{
 			if (args[0].equalsIgnoreCase("list"))
 			{
-				if (!AhoyCoin.projects.getKeys(false).isEmpty())
+				if (!plugin.projects.getKeys(false).isEmpty())
 				{
 					String projectsList = "";
-					for (String str : AhoyCoin.projects.getKeys(false))
+					for (String str : plugin.projects.getKeys(false))
 					{
 						projectsList = projectsList + str + ", ";
 					}
@@ -83,16 +83,16 @@ public class ProjectsCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("add"))
 			{
 				String newProjectName = args[1];
-				if (!AhoyCoin.projects.getKeys(false).contains(newProjectName))
+				if (!plugin.projects.getKeys(false).contains(newProjectName))
 				{
 					TimeZone tz = TimeZone.getTimeZone("GMT:00");
 					DateFormat dfgMT = DateFormat.getTimeInstance(DateFormat.LONG);
 					dfgMT.setTimeZone(tz);
 					
-					AhoyCoin.projects.set(newProjectName + ".started", dfgMT.format(new Date()));
-					AhoyCoin.projects.set(newProjectName + ".status", "inactive");
+					plugin.projects.set(newProjectName + ".started", dfgMT.format(new Date()));
+					plugin.projects.set(newProjectName + ".status", "inactive");
 
-					AhoyCoin.saveYamls();
+					plugin.saveYamls();
 		    		
 					player.sendMessage(plugin.pre + "Project \"" + newProjectName + "\" created!");
 					return true;
@@ -105,10 +105,10 @@ public class ProjectsCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("info"))
 			{
 				String project = args[1];
-				if (AhoyCoin.projects.getKeys(false).contains(project))
+				if (plugin.projects.getKeys(false).contains(project))
 				{
-					String status = AhoyCoin.projects.getString(project + ".status");
-					String startTime = AhoyCoin.projects.getString(project + ".started");
+					String status = plugin.projects.getString(project + ".status");
+					String startTime = plugin.projects.getString(project + ".started");
 					player.sendMessage(plugin.pre + "Project Name: " + project);
 					//player.sendMessage(plugin.pre + "Town: " + "");
 					player.sendMessage(plugin.pre + "Status: " + status);
@@ -124,11 +124,11 @@ public class ProjectsCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("remove"))
 			{
 				String project = args[1];
-				if (AhoyCoin.projects.getKeys(false).contains(project))
+				if (plugin.projects.getKeys(false).contains(project))
 				{
-					AhoyCoin.projects.set(project, null);
+					plugin.projects.set(project, null);
 					
-					AhoyCoin.saveYamls();
+					plugin.saveYamls();
 
 					player.sendMessage(plugin.pre + "Project \"" + project + "\" deleted.");
 					return true;
@@ -192,13 +192,13 @@ public class ProjectsCommand implements CommandExecutor {
 					String project = args[2];
 					String resource = args[3];
 					
-					if (AhoyCoin.projects.getKeys(false).contains(project))
+					if (plugin.projects.getKeys(false).contains(project))
 					{
-						if (AhoyCoin.projects.getConfigurationSection(project + ".resources").getKeys(false).contains(resource))
+						if (plugin.projects.getConfigurationSection(project + ".resources").getKeys(false).contains(resource))
 						{
-							AhoyCoin.projects.set(project + ".resources." + resource, null);
+							plugin.projects.set(project + ".resources." + resource, null);
 							
-							AhoyCoin.saveYamls();
+							plugin.saveYamls();
 
 							player.sendMessage(plugin.pre + "Resource \"" + resource + "\" removed for project \"" + project + "\".");
 							return true;
@@ -225,9 +225,9 @@ public class ProjectsCommand implements CommandExecutor {
 					Integer quantity = Integer.parseInt(args[4]);
 					
 					//player.sendMessage(plugin.pre + "Usage: /project resource add [projectname] [resourcename] [quantity]");
-					if (AhoyCoin.projects.getKeys(false).contains(project))
+					if (plugin.projects.getKeys(false).contains(project))
 					{
-						AhoyCoin.projects.set(project + ".resources." + resource + ".target", quantity);
+						plugin.projects.set(project + ".resources." + resource + ".target", quantity);
 						player.sendMessage(plugin.pre + "Project \"" + project + "\" now needs " + quantity.toString() + " " + resource + ".");
 						return true;
 					} else {
