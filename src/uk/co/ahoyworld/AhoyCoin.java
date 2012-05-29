@@ -1,5 +1,6 @@
 package uk.co.ahoyworld;
  
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -19,29 +20,29 @@ import org.bukkit.configuration.file.YamlConfiguration;
  
 public class AhoyCoin extends JavaPlugin {
 			    
-	static File configFile;
-	static File townsFile;
-    static File basePriceFile;
-    static File projectsFile;
-    static File playerListFile;
-    static FileConfiguration config;
-    static FileConfiguration towns;
-    static FileConfiguration basePrices;
-    static FileConfiguration projects;
-    static FileConfiguration playerList;
+	File configFile;
+	File townsFile;
+    File basePriceFile;
+    File projectsFile;
+    File playerListFile;
+    FileConfiguration config;
+    FileConfiguration towns;
+    FileConfiguration basePrices;
+    FileConfiguration projects;
+    FileConfiguration playerList;
     Logger log;
     
     private ProjectsCommand projectsExecutor;
     
-	public static Date now = new Date();
-	public static String [] signText = new String [4];
+	public Date now = new Date();
+	public String [] signText = new String [4];
 	
-	public static boolean replenishStartUp = true;
+	public boolean replenishStartUp = true;
     
     String pre = ChatColor.GOLD + "[AhoyCoin]" + ChatColor.WHITE + " ";
     
     public HashMap<String, String> phrases = new HashMap<String, String>(); // ID = node name; String = phrase
-    public static HashMap<String, String> replenishThreads = new HashMap<String, String>(); // ID = task ID; String [] = "TownName", "ItemName"
+    private ArrayList<Replenish> replenishThreads = new ArrayList<Replenish>();
     
     public Long getTimeStamp()
     {
@@ -109,7 +110,7 @@ public class AhoyCoin extends JavaPlugin {
         log.info("Plugin enabled.");
     }
  
-    public static void saveYamls()
+    public void saveYamls()
     {
         try
         {
@@ -187,20 +188,16 @@ public class AhoyCoin extends JavaPlugin {
     public void createReplenishTimer(String townName, String itemName, Integer initialDelay, Integer replenishTime)
     {
     	log.info("Replenish Timer Creator called! Town: " + townName + ", Item: " + itemName);
-    	if (AhoyCoin.replenishStartUp)
+    	if (replenishStartUp)
     	{
     		signText[1] = townName;
     		signText[2] = itemName;
     	}
     	log.info("Sign 1: " + signText[1] + ", Sign 2: " + signText[2]);
     	log.info("Delay: " + initialDelay.toString() + ", Time: " + replenishTime.toString());
-		replenish.taskID = getServer().getScheduler().scheduleSyncRepeatingTask(this, new replenish(null), (long) initialDelay, (long) replenishTime);
-		
-		Integer startTime = (int) (System.currentTimeMillis() / 1000L);
-		System.out.println("[AhoyCoin] Task ran with an ID of " + Integer.toString(replenish.taskID) + ".");
-		String townNameTime = townName + "," + itemName + "," + startTime.toString();
-		AhoyCoin.replenishThreads.put(Integer.toString(replenish.taskID), townNameTime);
-
+    	Integer startTime = (int) (System.currentTimeMillis() / 1000L);
+		Replenish replenish = new Replenish(this, townName + "," + itemName + "," + startTime.toString());
+		replenish.setPid(getServer().getScheduler().scheduleSyncRepeatingTask(this, replenish, (long) initialDelay, (long) replenishTime));
     }
     
     public void onDisable()
@@ -222,12 +219,12 @@ public class AhoyCoin extends JavaPlugin {
     	Integer finalTicks = -1;
     	Integer startTimeUnix = -1;
     	
-    	for (String townNameTime : replenishThreads.values())
+    	for (Replenish replenish: replenishThreads)
     	{
     		//Long timeStamp = getTimeStamp();
     		Integer timeStamp = (int) (System.currentTimeMillis() / 1000L);
 			replenishProgress = towns.getInt(townName + ".items." + itemName + ".replenishtimer");
-    		String [] taskInfo = townNameTime.split(",");
+    		String [] taskInfo = replenish.townNameTime.split(",");
     		townName = taskInfo[0];
     		itemName = taskInfo[1];
     		startTimeUnix = (int) (Long.parseLong(taskInfo[2]));

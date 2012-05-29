@@ -4,6 +4,7 @@ import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,17 +28,18 @@ public class Event_onBlockClick implements Listener
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void blockLeftClick (PlayerInteractEvent event)
 	{		
 		if (event.getAction() == Action.LEFT_CLICK_BLOCK)
 		{
-			if (event.getClickedBlock().getState() instanceof Sign)
+			BlockState bs = event.getClickedBlock().getState(); // getState() is a really heavy call. Better save the result and re-use it.
+			if (bs instanceof Sign)
 			{
-				Sign sign = (Sign) event.getClickedBlock().getState();
+				Sign sign = (Sign) bs;
 				if (sign.getLine(0).equalsIgnoreCase("[Vendor]"))
 				{
+					event.setCancelled(true); // <- This is important as you destroy the sign by activating if your in creative. But maybe there's a better place for it...
 					Player player = event.getPlayer();
 					// player.sendMessage("Creating sign...");
 					String [] signText = sign.getLines();
@@ -46,13 +48,13 @@ public class Event_onBlockClick implements Listener
 						String townName = signText[1];
 						String itemName = signText[2].toLowerCase();
 						Integer quantity = Integer.parseInt(signText[3]);
-						if (AhoyCoin.towns.getKeys(false).contains(townName))
+						if (plugin.towns.getKeys(false).contains(townName))
 						{
 							// player.sendMessage("Town \"" + townName + "\" exists.");
-							if (AhoyCoin.basePrices.getKeys(false).contains(itemName))
+							if (plugin.basePrices.getKeys(false).contains(itemName))
 							{
 								// player.sendMessage("Item \"" + itemName + "\" exists.");
-								if (quantity <= 64 && quantity <= AhoyCoin.basePrices.getInt(itemName + ".maxstock"))
+								if (quantity <= 64 && quantity <= plugin.basePrices.getInt(itemName + ".maxstock"))
 								{
 									// player.sendMessage("Quantity \"" + quantity.toString() + "\" valid.");
 									
@@ -62,45 +64,45 @@ public class Event_onBlockClick implements Listener
 									// Ugly, UGLY code.
 									// Change this to get the specifically-set maxstock settings (in towns.yml) if available
 									// Also, use "if (!plugin.towns.getKeys(true).contains(townName + ".items." + itemName + ".curstock"))
-									if (AhoyCoin.towns.getConfigurationSection(townName).getKeys(false).contains("items"))
+									if (plugin.towns.getConfigurationSection(townName).getKeys(false).contains("items"))
 									{
-										if (AhoyCoin.towns.getConfigurationSection(townName + ".items").getKeys(false).contains(itemName))
+										if (plugin.towns.getConfigurationSection(townName + ".items").getKeys(false).contains(itemName))
 										{
-											if (!AhoyCoin.towns.getConfigurationSection(townName + ".items." + itemName).getKeys(false).contains("curstock"))
+											if (!plugin.towns.getConfigurationSection(townName + ".items." + itemName).getKeys(false).contains("curstock"))
 											{
-												Integer maxstock = AhoyCoin.basePrices.getInt(itemName + ".maxstock");
-												AhoyCoin.towns.set(townName + ".items." + itemName + ".curstock", maxstock);
-												AhoyCoin.saveYamls();
+												Integer maxstock = plugin.basePrices.getInt(itemName + ".maxstock");
+												plugin.towns.set(townName + ".items." + itemName + ".curstock", maxstock);
+												plugin.saveYamls();
 												player.sendMessage(plugin.pre + "Sign created!");
 											} else {
 												player.sendMessage(plugin.pre + "Apparently current stock is already assigned.");
 											}
 										} else {
-											Integer maxstock = AhoyCoin.basePrices.getInt(itemName + ".maxstock");
-											AhoyCoin.towns.set(townName + ".items." + itemName + ".curstock", maxstock);
-											AhoyCoin.saveYamls();
+											Integer maxstock = plugin.basePrices.getInt(itemName + ".maxstock");
+											plugin.towns.set(townName + ".items." + itemName + ".curstock", maxstock);
+											plugin.saveYamls();
 											player.sendMessage(plugin.pre + "Sign created!");
 										}
 									} else {
-										Integer maxstock = AhoyCoin.basePrices.getInt(itemName + ".maxstock");
-										AhoyCoin.towns.set(townName + ".items." + itemName + ".curstock", maxstock);
-										AhoyCoin.saveYamls();
+										Integer maxstock = plugin.basePrices.getInt(itemName + ".maxstock");
+										plugin.towns.set(townName + ".items." + itemName + ".curstock", maxstock);
+										plugin.saveYamls();
 										player.sendMessage(plugin.pre + "Sign created!");
 									}
 									Integer replenishTime = -1;
-									if (AhoyCoin.towns.getKeys(true).contains(townName + ".items." + itemName + ".replenishTime"))
+									if (plugin.towns.getKeys(true).contains(townName + ".items." + itemName + ".replenishTime"))
 									{
-										replenishTime = (AhoyCoin.towns.getInt(townName + ".items." + itemName + ".replenishtime") * 24000);
+										replenishTime = (plugin.towns.getInt(townName + ".items." + itemName + ".replenishtime") * 24000);
 									} else {
-										replenishTime = (AhoyCoin.basePrices.getInt(itemName + ".replenishtime") * 24000);
+										replenishTime = (plugin.basePrices.getInt(itemName + ".replenishtime") * 24000);
 									}
 									
-									if (!AhoyCoin.towns.getKeys(true).contains(townName + ".items." + itemName + ".replenishtimer"))
+									if (!plugin.towns.getKeys(true).contains(townName + ".items." + itemName + ".replenishtimer"))
 									{
-										AhoyCoin.signText[1] = townName;
-										AhoyCoin.signText[2] = itemName;
+										plugin.signText[1] = townName;
+										plugin.signText[2] = itemName;
 										plugin.createReplenishTimer(townName, itemName, 0, replenishTime);
-										AhoyCoin.towns.set(townName + ".items." + itemName + ".replenishtimer", 0);
+										plugin.towns.set(townName + ".items." + itemName + ".replenishtimer", 0);
 									}								
 								} else {
 									player.sendMessage(plugin.pre + "Quantity \"" + quantity.toString() + "\" invalid. Please specify a value below the maximum stock level (NO. HERE).");
@@ -116,119 +118,122 @@ public class Event_onBlockClick implements Listener
 						player.sendMessage(plugin.pre + "Invalid number of parameters!");
 					}
 				} else if (sign.getLine(0).equalsIgnoreCase(ChatColor.BLUE + "[Vendor]")) {
+					event.setCancelled(true);
 					Player player = event.getPlayer();
 					String playerName = player.getName();
 					String [] signText = sign.getLines();
 					String townName = signText[1];
 					String itemName = signText[2].toLowerCase();
 					Integer quantity = Integer.parseInt(signText[3]);
-					double tax = AhoyCoin.towns.getInt(townName + ".tax");
+					double tax = plugin.towns.getInt(townName + ".tax");
 					double preTax = -1;
 					double finalPrice = -1;
 					
-					if (AhoyCoin.playerList.getKeys(false).contains(player.getName()))
+					if (plugin.playerList.getKeys(false).contains(player.getName()))
 					{
-						if (AhoyCoin.playerList.getString(playerName + ".trademode").equalsIgnoreCase("buy"))
+						if (plugin.playerList.getString(playerName + ".trademode").equalsIgnoreCase("buy"))
 						{
 							//set to sell mode
-							AhoyCoin.playerList.set(playerName + ".trademode", "sell");
+							plugin.playerList.set(playerName + ".trademode", "sell");
 						} else {
 							//set to buy mode
-							AhoyCoin.playerList.set(playerName + ".trademode", "buy");
+							plugin.playerList.set(playerName + ".trademode", "buy");
 						}
 					} else {
-						AhoyCoin.playerList.set(playerName + ".trademode", "buy");
+						plugin.playerList.set(playerName + ".trademode", "buy");
 						//player does not exist - create new buy mode
 					}
 					
-					AhoyCoin.saveYamls();
+					plugin.saveYamls();
 					
-					boolean buymode = AhoyCoin.playerList.getString(player.getName() + ".trademode").equalsIgnoreCase("buy");
+					boolean buymode = plugin.playerList.getString(player.getName() + ".trademode").equalsIgnoreCase("buy");
 					
-					if (!AhoyCoin.towns.getKeys(true).contains(townName + ".items." + itemName)) // if item isn't created
+					if (!plugin.towns.getKeys(true).contains(townName + ".items." + itemName)) // if item isn't created
 					{
-						AhoyCoin.towns.set(townName + ".items." + itemName + ".curstock", AhoyCoin.basePrices.getInt(itemName + ".maxstock"));
-						AhoyCoin.saveYamls();
-						preTax = AhoyCoin.basePrices.getInt(itemName + ".price") * quantity;
+						plugin.towns.set(townName + ".items." + itemName + ".curstock", plugin.basePrices.getInt(itemName + ".maxstock"));
+						plugin.saveYamls();
+						preTax = plugin.basePrices.getInt(itemName + ".price") * quantity;
 						finalPrice = preTax + ((preTax / 100) * tax);
-					} else if (AhoyCoin.towns.getConfigurationSection(townName + ".items." + itemName).getKeys(false).contains("price")) { //if price is specified
-						preTax = AhoyCoin.towns.getInt(townName + ".items." + itemName + ".price") * quantity;
+					} else if (plugin.towns.getConfigurationSection(townName + ".items." + itemName).getKeys(false).contains("price")) { //if price is specified
+						preTax = plugin.towns.getInt(townName + ".items." + itemName + ".price") * quantity;
 						finalPrice = preTax + ((preTax / 100) * tax);
 					} else { //use default price
-						preTax = AhoyCoin.basePrices.getInt(itemName + ".price") * quantity;
+						preTax = plugin.basePrices.getInt(itemName + ".price") * quantity;
 						finalPrice = preTax + ((preTax / 100) * tax);
 					}
 					
 					if (!buymode)
 					{
-						finalPrice = (finalPrice / 100) * AhoyCoin.config.getInt("defaults.sell_percent");
+						finalPrice = (finalPrice / 100) * plugin.config.getInt("defaults.sell_percent");
 					}
 					
 					//round finalPrice UP to the nearest Integer
 					finalPrice = Math.ceil(finalPrice);
 					
-					if (AhoyCoin.playerList.getString(playerName + ".trademode").equalsIgnoreCase("buy"))
+					if (plugin.playerList.getString(playerName + ".trademode").equalsIgnoreCase("buy"))
 					{
 						//query buy price
 						player.sendMessage(plugin.pre + "Buy " + quantity.toString() + " " + itemName + "(s) from " + townName + " for " + finalPrice + "?");
-					} else if (AhoyCoin.playerList.getString(playerName + ".trademode").equalsIgnoreCase("sell")) {
+					} else if (plugin.playerList.getString(playerName + ".trademode").equalsIgnoreCase("sell")) {
 						//query sell price
 						player.sendMessage(plugin.pre + "Sell " + quantity.toString() + " " + itemName + "(s) to " + townName + " for " + finalPrice + "?");
 					}
 				}
 			}
 		} else if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			if (event.getClickedBlock().getState() instanceof Sign)
+			BlockState bs = event.getClickedBlock().getState();
+			if (bs instanceof Sign)
 			{
-				Sign sign = (Sign) event.getClickedBlock().getState();
+				Sign sign = (Sign) bs;
 				if (sign.getLine(0).equalsIgnoreCase(ChatColor.BLUE + "[Vendor]"))
 				{
+					event.setCancelled(true);
 					Player player = event.getPlayer();
 					// player.sendMessage(plugin.pre + "You right clicked a sign. Well-fucking-done.");
 					String [] signText = sign.getLines();
 					String townName = signText[1];
 					String itemName = signText[2];
 					Integer quantity = Integer.parseInt(signText[3]);
-					Integer curstock = AhoyCoin.towns.getInt(townName + ".items." + itemName + ".curstock");
+					Integer curstock = plugin.towns.getInt(townName + ".items." + itemName + ".curstock");
 					Integer maxstock = -1;
-					double tax = AhoyCoin.towns.getInt(townName + ".tax");
+					double tax = plugin.towns.getInt(townName + ".tax");
 					double preTax = -1;
 					double finalPrice = -1;
 					
-					if (!AhoyCoin.playerList.getKeys(false).contains(player.getName()))
+					if (!plugin.playerList.getKeys(false).contains(player.getName()))
 					{
-						AhoyCoin.playerList.set(player.getName() + ".trademode", "buy");
+						plugin.playerList.set(player.getName() + ".trademode", "buy");
 						//player does not exist - create new buy mode
 					}
 					
-					AhoyCoin.saveYamls();
+					plugin.saveYamls();
 					
-					boolean buymode = AhoyCoin.playerList.getString(player.getName() + ".trademode").equalsIgnoreCase("buy");
+					boolean buymode = plugin.playerList.getString(player.getName() + ".trademode").equalsIgnoreCase("buy");
 					
-					if (!AhoyCoin.towns.getKeys(true).contains(townName + ".items." + itemName)) // if item isn't created
+					if (!plugin.towns.getKeys(true).contains(townName + ".items." + itemName)) // if item isn't created
 					{
-						AhoyCoin.towns.set(townName + ".items." + itemName + ".curstock", AhoyCoin.basePrices.getInt(itemName + ".maxstock"));
-						AhoyCoin.saveYamls();
-						preTax = AhoyCoin.basePrices.getInt(itemName + ".price") * quantity;
+						plugin.towns.set(townName + ".items." + itemName + ".curstock", plugin.basePrices.getInt(itemName + ".maxstock"));
+						plugin.saveYamls();
+						preTax = plugin.basePrices.getInt(itemName + ".price") * quantity;
 						finalPrice = preTax + ((preTax / 100) * tax);
-					} else if (AhoyCoin.towns.getConfigurationSection(townName + ".items." + itemName).getKeys(false).contains("price")) {
-						preTax = AhoyCoin.towns.getInt(townName + ".items." + itemName + ".price") * quantity;
+					} else if (plugin.towns.getConfigurationSection(townName + ".items." + itemName).getKeys(false).contains("price")) {
+						preTax = plugin.towns.getInt(townName + ".items." + itemName + ".price") * quantity;
 						finalPrice = preTax + ((preTax / 100) * tax);
 					} else {
-						preTax = AhoyCoin.basePrices.getInt(itemName + ".price") * quantity;
+						preTax = plugin.basePrices.getInt(itemName + ".price") * quantity;
 						finalPrice = preTax + ((preTax / 100) * tax);
 					}
 										
-					if (AhoyCoin.towns.getConfigurationSection(townName + ".items." + itemName).getKeys(false).contains("maxstock"))
+					if (plugin.towns.getConfigurationSection(townName + ".items." + itemName).getKeys(false).contains("maxstock"))
 					{
-						maxstock = AhoyCoin.towns.getInt(townName + ".items." + itemName + ".maxstock");
+						maxstock = plugin.towns.getInt(townName + ".items." + itemName + ".maxstock");
 					} else {
-						maxstock = AhoyCoin.basePrices.getInt(itemName + ".maxstock");
+						maxstock = plugin.basePrices.getInt(itemName + ".maxstock");
 					}
 					
 					if (!buymode)
 					{
-						finalPrice = (finalPrice / 100) * AhoyCoin.config.getInt("defaults.sell_percent");
+						finalPrice = (finalPrice / 100) * plugin.config.getInt("defaults.sell_percent");
 					}
 					
 					//round finalPrice UP to the nearest Integer
@@ -252,51 +257,42 @@ public class Event_onBlockClick implements Listener
 							econ.withdrawPlayer(player.getName(), finalPrice);
 							player.getInventory().addItem(items);
 							Integer newStock = curstock - quantity;
-							AhoyCoin.towns.set(signText[1] + ".items." + signText[2] + ".curstock", newStock);
-							AhoyCoin.saveYamls();
+							plugin.towns.set(signText[1] + ".items." + signText[2] + ".curstock", newStock);
+							plugin.saveYamls();
 							player.sendMessage(plugin.pre + "You bought " + quantity.toString() + " " + itemName.toString() + "(s) from " + townName + " for " + String.valueOf(finalPrice) + ".");
 							player.sendMessage(plugin.pre + "Your new balance is " + econ.getBalance(player.getName()) + ".");
 						} else {
 							player.sendMessage(plugin.pre + "You don't have enough money! You've only got " + econ.getBalance(player.getName()) + "!");
 						}
 					} else if (!buymode) {
-						if (player.getItemInHand().getType().toString().equalsIgnoreCase(itemName))
+						ItemStack inHand = player.getItemInHand(); // You use it so often, better save a reference. ^^
+						if (inHand.getType().toString().equalsIgnoreCase(itemName))
 						{
-							Integer amountHeld = player.getItemInHand().getAmount();
+							int amountHeld = inHand.getAmount(); // Integer to int... Integer is more heavy...
 							
-							if (!(amountHeld < quantity))
+							if (amountHeld >= quantity)
 							{
 								//player has enough of item to sell - so sell it!
-								Integer newPlayerAmount = amountHeld - quantity;
+								amountHeld -= quantity; // Re-use existing variables...
 								
 								//set the shop's stock
 								if (!((curstock + quantity) >= maxstock))
 								{
-									AhoyCoin.towns.set(townName + ".items." + itemName + ".curstock", (curstock + quantity));
+									plugin.towns.set(townName + ".items." + itemName + ".curstock", (curstock + quantity));
 								} else {
-									AhoyCoin.towns.set(townName + ".items." + itemName + ".curstock", maxstock);
+									plugin.towns.set(townName + ".items." + itemName + ".curstock", maxstock);
 								}
 								
-								AhoyCoin.saveYamls();
+								plugin.saveYamls();
 								
 								//remove the item(s) from the player
-								if (newPlayerAmount == 0)
-								{
-									ItemStack replaceItemWith = new ItemStack(Material.AIR, 1);
-									player.setItemInHand(replaceItemWith);
-									
-									//int itemSlot = player.getInventory().getHeldItemSlot();
-									//player.getInventory().setItem(itemSlot, null);
-									
-									//player.setItemInHand(null);
-									
-									//player.getInventory().remove(itemToRemove);
-								} else {
-									player.getInventory().removeItem(new ItemStack(Material.getMaterial(itemName.toUpperCase()), quantity));
-									//player.getItemInHand().setAmount(newPlayerAmount);
-								}
+								if (amountHeld == 0)
+									inHand = null;
+								else
+									inHand.setAmount(amountHeld);
+								player.setItemInHand(inHand);
 								
-								player.updateInventory();
+								//player.updateInventory(); Don't use deprecated functions if not really needed.
 								
 								//give the player the money
 								econ.depositPlayer(player.getName(), finalPrice);
@@ -313,6 +309,7 @@ public class Event_onBlockClick implements Listener
 				} else if (sign.getLine(0).equalsIgnoreCase("[Vendor]")) {
 					Player player = event.getPlayer();
 					player.sendMessage(plugin.pre + "Left-click the sign first to create it!");
+					event.setCancelled(true);
 				}
 			}
 		}
