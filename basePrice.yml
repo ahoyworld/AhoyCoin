@@ -95,9 +95,9 @@ clay_brick:
   replenishamount:
 clay_ball:
   price: 500
-  maxstock: 0
-  replenishtime:
-  replenishamount:
+  maxstock: 9
+  replenishtime: 18
+  replenishamount:1
 coal:
   price: 5250
   maxstock: 1
@@ -121,8 +121,8 @@ dirt:
 double_step:
   price: 480
   maxstock: 0
-  replenishtime:
-  replenishamount:
+  replenishtime: 1
+  replenishamount: 0
 egg:
   price: 500
   maxstock: 10
@@ -304,45 +304,45 @@ iron_sword:
   replenishtime: 72
   replenishamount: 2
 ladder:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 438
+  maxstock: 64
+  replenishtime: 1
+  replenishamount: 8
 lapis_ore:
   price: 800
   maxstock: 64
   replenishtime: 1
   replenishamount: 1
 leather:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price:5440
+  maxstock:32
+  replenishtime:1
+  replenishamount:1
 leather_boots:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 21761
+  maxstock: 12
+  replenishtime: 72
+  replenishamount: 4
 leather_chestplate:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 43522
+  maxstock: 10
+  replenishtime: 72
+  replenishamount: 4
 leather_helmet:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 27200
+  maxstock: 15
+  replenishtime: 72
+  replenishamount: 7
 leather_leggings:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 39000
+  maxstock: 10
+  replenishtime: 72
+  replenishamount: 4
 lever:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 305
+  maxstock: 32
+  replenishtime: 32
+  replenishamount: 16
 log:
   price:
   maxstock:
