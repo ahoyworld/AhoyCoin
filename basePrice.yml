@@ -13,8 +13,9 @@ bed:
   maxstock: 64
   replenishtime: 1
   replenishamount: 1
-bedrock
-  price:  100000000000
+bedrock:
+  price: 100000000000
+  maxstock: 1
   replenistime: 1
   replenishamount: 1
 boat:
@@ -63,15 +64,15 @@ brown_mushroom:
   replenishtime: 216
   replenishamount: 2
 bucket:
-  price: 20400.75
-  maxstock: 2
-  replenishtime:
-  replenishamount:
+  price: 20400
+  maxstock: 16
+  replenishtime: 1
+  replenishamount: 1
 cactus:
   price: 2
   maxstock: 1000
-  replenishtime:
-  replenishamount:
+  replenishtime: 9999
+  replenishamount: 1
 cake:
   price: 45387
   maxstock: 32
@@ -80,8 +81,8 @@ cake:
 charcoal:
   price: 1050
   maxstock: 32
-  replenishtime:
-  replenishamount:
+  replenishtime: 9999
+  replenishamount: 1
 chest:
   price: 2000
   maxstock: 4
@@ -89,14 +90,14 @@ chest:
   replenishamount: 1
 clay_brick:
   price: 550
-  maxstock: 26
-  replenishtime:
-  replenishamount:
+  maxstock: 64
+  replenishtime: 1
+  replenishamount: 2
 clay_ball:
   price: 500
   maxstock: 9
   replenishtime: 18
-  replenishamount:1
+  replenishamount: 1
 coal:
   price: 5250
   maxstock: 1
@@ -170,8 +171,8 @@ gold_helmet:
 gold_record:
   price: 100000
   maxstock: 1
-  replenishtime:
-  replenishamount:
+  replenishtime: 504
+  replenishamount: 1
 gold_axe:
   price: 5225
   maxstock: 4
@@ -180,8 +181,8 @@ gold_axe:
 gold_block:
   price: 15301
   maxstock: 1
-  replenishtime:
-  replenishamount:
+  replenishtime: 9999
+  replenishamount: 1
 gold_boots:
   price: 6800
   maxstock: 4
@@ -313,10 +314,10 @@ lapis_ore:
   replenishtime: 1
   replenishamount: 1
 leather:
-  price:5440
-  maxstock:32
-  replenishtime:1
-  replenishamount:1
+  price: 5440
+  maxstock: 32
+  replenishtime: 1
+  replenishamount: 1
 leather_boots:
   price: 21761
   maxstock: 12
@@ -473,10 +474,10 @@ stone:
   replenishtime: 14
   replenishamount: 128
 stone_axe:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 245
+  maxstock: 32
+  replenishtime: 1
+  replenishamount: 2
 stone_button:
   price: 80
   maxstock: 32
@@ -586,7 +587,7 @@ wood_sword:
   price: 563
   maxstock: 10
   replenishtime: 1
-  replenishamount: 
+  replenishamount: 1
 wool:
   price: 500
   maxstock: 32
