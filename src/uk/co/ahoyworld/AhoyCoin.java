@@ -24,15 +24,14 @@ public class AhoyCoin extends JavaPlugin {
 	File townsFile;
     File basePriceFile;
     File projectsFile;
-    File playerListFile;
     FileConfiguration config;
     FileConfiguration towns;
     FileConfiguration basePrices;
     FileConfiguration projects;
-    FileConfiguration playerList;
     Logger log;
-    
+        
     private ProjectsCommand projectsExecutor;
+    //private Phrases phrases;
     
 	public Date now = new Date();
 	public String [] signText = new String [4];
@@ -41,7 +40,8 @@ public class AhoyCoin extends JavaPlugin {
     
     String pre = ChatColor.GOLD + "[AhoyCoin]" + ChatColor.WHITE + " ";
     
-    public HashMap<String, String> phrases = new HashMap<String, String>(); // ID = node name; String = phrase
+    public HashMap<String, Boolean> playerMode = new HashMap<String, Boolean>(); //ID = player name; Boolean = isBuying
+    public HashMap<String, String> phrasesMap = new HashMap<String, String>(); // ID = node name; String = phrase
     private ArrayList<Replenish> replenishThreads = new ArrayList<Replenish>();
     
     public Long getTimeStamp()
@@ -57,13 +57,12 @@ public class AhoyCoin extends JavaPlugin {
     	projectsExecutor = new ProjectsCommand(this);
     	getCommand("project").setExecutor(projectsExecutor);
     	
-    	//Phrases.getPhrases();
+    	//phrases.getPhrases();
     	
         configFile = new File(getDataFolder(), "config.yml");
         townsFile = new File(getDataFolder(), "towns.yml");
         basePriceFile = new File(getDataFolder(), "basePrice.yml");
         projectsFile = new File(getDataFolder(), "projects.yml");
-        playerListFile = new File(getDataFolder(), "playerList.yml");
      
         try
         {
@@ -76,7 +75,6 @@ public class AhoyCoin extends JavaPlugin {
         towns = new YamlConfiguration();
         basePrices = new YamlConfiguration();
         projects = new YamlConfiguration();
-        playerList = new YamlConfiguration();
 
         loadYamls();
         
@@ -118,7 +116,6 @@ public class AhoyCoin extends JavaPlugin {
             towns.save(townsFile);
             basePrices.save(basePriceFile);
             projects.save(projectsFile);
-            playerList.save(playerListFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -132,7 +129,6 @@ public class AhoyCoin extends JavaPlugin {
             towns.load(townsFile);
             basePrices.load(basePriceFile);
             projects.load(projectsFile);
-            playerList.save(playerListFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -159,11 +155,6 @@ public class AhoyCoin extends JavaPlugin {
         {
         	projectsFile.getParentFile().mkdirs();
         	copy(getResource("projects.yml"), projectsFile);
-        }
-        if (!playerListFile.exists())
-        {
-        	playerListFile.getParentFile().mkdirs();
-        	copy(getResource("playerList.yml"), playerListFile);
         }
     }
  
@@ -298,7 +289,7 @@ public class AhoyCoin extends JavaPlugin {
     		i++;
     	}
     	
-    	phrases.clear();
+    	//phrases.clear();
     	
         saveYamls();
         log.info("Plugin disabled.");
@@ -331,7 +322,7 @@ public class AhoyCoin extends JavaPlugin {
                 
                 if (args[0].equalsIgnoreCase("testphrase"))
                 {
-                	player.sendMessage(pre + phrases.get("sign_created"));
+                	player.sendMessage(pre + phrasesMap.get("sign_created"));
                 }
                 
                 if (args[0].equalsIgnoreCase("disable"))

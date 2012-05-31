@@ -17,11 +17,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 public class Event_onBlockClick implements Listener 
 {	
 	private AhoyCoin plugin;
-	//private ProjectsCommand project;
-	
-	//public ArrayList<String> townNameTime = new ArrayList<String>();
-	//String townNameTime = "";
-	//Long startTime = -1L;
 	
 	public Event_onBlockClick(AhoyCoin plugin)
 	{
@@ -128,37 +123,9 @@ public class Event_onBlockClick implements Listener
 										plugin.saveYamls();
 										player.sendMessage(plugin.pre + "Sign created!");
 									} else {
-										player.sendMessage(plugin.pre + "Sign created! (Stock already assigned");
+										player.sendMessage(plugin.pre + "Sign created! (Stock already assigned)");
 									}
-									
-									
-									/*if (plugin.towns.getConfigurationSection(townName).getKeys(false).contains("items"))
-									{
-										if (plugin.towns.getConfigurationSection(townName + ".items").getKeys(false).contains(itemName))
-										{
-											if (!plugin.towns.getConfigurationSection(townName + ".items." + itemName).getKeys(false).contains("curstock"))
-											{
-												Integer maxstock = plugin.basePrices.getInt(itemName + ".maxstock");
-												plugin.towns.set(townName + ".items." + itemName + ".curstock", maxstock);
-												plugin.saveYamls();
-												player.sendMessage(plugin.pre + "Sign created!");
-											} else {
-												player.sendMessage(plugin.pre + "Apparently current stock is already assigned.");
-											}
-										} else {
-											Integer maxstock = plugin.basePrices.getInt(itemName + ".maxstock");
-											plugin.towns.set(townName + ".items." + itemName + ".curstock", maxstock);
-											plugin.saveYamls();
-											player.sendMessage(plugin.pre + "Sign created!");
-										}
-									} else {
-										Integer maxstock = plugin.basePrices.getInt(itemName + ".maxstock");
-										plugin.towns.set(townName + ".items." + itemName + ".curstock", maxstock);
-										plugin.saveYamls();
-										player.sendMessage(plugin.pre + "Sign created!");
-									} */
-									
-									
+
 									Integer replenishTime = -1;
 									if (plugin.towns.getKeys(true).contains(townName + ".items." + itemName + ".replenishTime"))
 									{
@@ -199,24 +166,20 @@ public class Event_onBlockClick implements Listener
 					double preTax = -1;
 					double finalPrice = -1;
 					
-					if (plugin.playerList.getKeys(false).contains(player.getName()))
+					if (plugin.playerMode.containsKey(playerName))
 					{
-						if (plugin.playerList.getString(playerName + ".trademode").equalsIgnoreCase("buy"))
+						boolean isBuying = plugin.playerMode.get(playerName);
+						if (isBuying)
 						{
-							//set to sell mode
-							plugin.playerList.set(playerName + ".trademode", "sell");
+							plugin.playerMode.put(playerName, false);
 						} else {
-							//set to buy mode
-							plugin.playerList.set(playerName + ".trademode", "buy");
+							plugin.playerMode.put(playerName, true);
 						}
 					} else {
-						plugin.playerList.set(playerName + ".trademode", "buy");
-						//player does not exist - create new buy mode
+						plugin.playerMode.put(playerName, true);
 					}
 					
-					plugin.saveYamls();
-					
-					boolean buymode = plugin.playerList.getString(player.getName() + ".trademode").equalsIgnoreCase("buy");
+					boolean buymode = plugin.playerMode.get(playerName);
 					
 					if (!plugin.towns.getKeys(true).contains(townName + ".items." + itemName)) // if item isn't created
 					{
@@ -240,11 +203,11 @@ public class Event_onBlockClick implements Listener
 					//round finalPrice UP to the nearest Integer
 					finalPrice = Math.ceil(finalPrice);
 					
-					if (plugin.playerList.getString(playerName + ".trademode").equalsIgnoreCase("buy"))
+					if (buymode)
 					{
 						//query buy price
 						player.sendMessage(plugin.pre + "Buy " + quantity.toString() + " " + itemName + "(s) from " + townName + " for " + finalPrice + "?");
-					} else if (plugin.playerList.getString(playerName + ".trademode").equalsIgnoreCase("sell")) {
+					} else if (!buymode) {
 						//query sell price
 						player.sendMessage(plugin.pre + "Sell " + quantity.toString() + " " + itemName + "(s) to " + townName + " for " + finalPrice + "?");
 					}
@@ -320,6 +283,7 @@ public class Event_onBlockClick implements Listener
 					Player player = event.getPlayer();
 					// player.sendMessage(plugin.pre + "You right clicked a sign. Well-fucking-done.");
 					String [] signText = sign.getLines();
+					String playerName = player.getName();
 					String townName = signText[1];
 					String itemName = signText[2];
 					Integer quantity = Integer.parseInt(signText[3]);
@@ -329,15 +293,15 @@ public class Event_onBlockClick implements Listener
 					double preTax = -1;
 					double finalPrice = -1;
 					
-					if (!plugin.playerList.getKeys(false).contains(player.getName()))
+					if (!(plugin.playerMode.containsKey(playerName)))
 					{
-						plugin.playerList.set(player.getName() + ".trademode", "buy");
 						//player does not exist - create new buy mode
+						plugin.playerMode.put(playerName, true);
 					}
 					
 					plugin.saveYamls();
 					
-					boolean buymode = plugin.playerList.getString(player.getName() + ".trademode").equalsIgnoreCase("buy");
+					boolean buymode = plugin.playerMode.get(playerName);
 					
 					if (!plugin.towns.getKeys(true).contains(townName + ".items." + itemName)) // if item isn't created
 					{

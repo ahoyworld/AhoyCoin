@@ -25,9 +25,9 @@ boat:
   replenishamount: 1
 bone:
   price: 100
-  maxstock: 00
-  replenishtime: 0
-  replenishamount: 0
+  maxstock: 1
+  replenishtime: 9999
+  replenishamount: 1
 book:
   price: 50
   maxstock: 600

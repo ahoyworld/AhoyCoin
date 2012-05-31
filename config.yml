@@ -1,10 +1,13 @@
 settings:
-  debug: false
+  verbose-start: false
+  verbose-logging: false
 defaults:
   tax: 10
   sell_percent: 33
 phrases:
-  town_no_exist: 'Town \"%town\" does not exist.'
-  item_no_exist: 'Item \"%item\" does not exist.'
+  town_no_exist: 'Town does not exist.'
+  item_no_exist: 'Item does not exist.'
   invalid_quantity: 'Invalid quantity.'
   sign_created: 'Shop created!'
+  project_created: 'Project created!'
+  

@@ -2,7 +2,7 @@ package uk.co.ahoyworld;
 
 public class Phrases {
 
-	private final AhoyCoin plugin;
+	private AhoyCoin plugin;
 	
 	public Phrases(AhoyCoin plugin)
 	{
@@ -20,8 +20,15 @@ public class Phrases {
 		
 		for (String nodeName : plugin.config.getConfigurationSection("phrases").getKeys(false))
 		{
-			plugin.phrases.clear();
-			plugin.phrases.put(nodeName, plugin.config.get("phrases." + nodeName).toString());
+			plugin.phrasesMap.clear();
+			plugin.phrasesMap.put(nodeName, plugin.config.get("phrases." + nodeName).toString());
 		}
+	}
+	
+	
+	
+	public void clear()
+	{
+		plugin.phrasesMap.clear();
 	}
 }
