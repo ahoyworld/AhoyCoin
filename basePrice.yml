@@ -13,6 +13,10 @@ bed:
   maxstock: 64
   replenishtime: 1
   replenishamount: 1
+bedrock
+  price:  100000000000
+  replenistime: 1
+  replenishamount: 1
 boat:
   price: 2500
   maxstock: 20
@@ -55,9 +59,9 @@ brick:
   replenishamount: 40
 brown_mushroom:
   price: 1000
-  maxstock: 5
+  maxstock: 6
   replenishtime: 216
-  replenishamount: 
+  replenishamount: 2
 bucket:
   price: 20400.75
   maxstock: 2
@@ -344,267 +348,262 @@ lever:
   replenishtime: 32
   replenishamount: 16
 log:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 1000
+  maxstock: 1
+  replenishtime: 99999
+  replenishamount: 1
 milk_bucket:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 22401
+  maxstock: 12
+  replenishtime: 3
+  replenishamount: 1
 minecart:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 34000
+  maxstock: 6
+  replenishtime: 216
+  replenishamount: 2
 mossy_cobblestone:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 20000
+  maxstock: 32
+  replenishtime: 72
+  replenishamount: 8
 mushroom_soup:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 2750
+  maxstock: 9
+  replenishtime: 3
+  replenishamount: 3
 note_block:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 2250
+  maxstock: 12
+  replenishtime: 216
+  replenishamount: 4
 obsidian:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 100000
+  maxstock: 64
+  replenishtime: 504
+  replenishamount: 16
 powered_minecart:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 35320
+  maxstock: 1
+  replenishtime: 1
+  replenishamount: 1
 pumpkin:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 50
+  maxstock: 1
+  replenishtime: 9999
+  replenishamount: 1
 rails:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 2554
+  maxstock: 256
+  replenishtime: 72
+  replenishamount: 16
 raw_fish:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 10
+  maxstock: 1
+  replenishtime: 9999
+  replenishamount: 1
 red_mushroom:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 1000
+  maxstock: 6
+  replenishtime: 216
+  replenishamount: 2
 red_rose:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 100
+  maxstock: 1
+  replenishtime: 9999
+  replenishamount: 1
 redstone_dust:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 250
+  maxstock: 256
+  replenishtime: 72
+  replenishamount: 4
 redstone_torch:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
-saddle:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 313
+  maxstock: 32
+  replenishtime: 72
+  replenishamount: 1
 sand:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 500
+  maxstock: 1
+  replenishtime: 9999
+  replenishamount: 1
 sandstone:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 2000
+  maxstock: 64
+  replenishtime: 36
+  replenishamount: 4
 sapling:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 2500
+  maxstock: 1
+  replenishtime: 9999
+  replenishamount: 1
 seeds:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 15000
+  maxstock: 4
+  replenishtime: 1
+  replenishamount: 1
 sign:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 1715
+  maxstock: 9
+  replenishtime: 1
+  replenishamount: 1
 slime_ball:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 50000
+  maxstock: 1
+  replenishtime: 9999
+  replenishamount: 1
 snow_ball:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 300
+  maxstock: 64
+  replenishtime: 7
+  replenishamount: 16 
 sponge:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 40000
+  maxstock: 16
+  replenishtime: 7
+  replenishamount: 1
 step:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 240
+  maxstock: 32
+  replenishtime: 1
+  replenishamount: 1
 stick:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 63
+  maxstock: 64
+  replenishtime: 1
+  replenishamount: 16
 stone:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 696
+  maxstock: 128
+  replenishtime: 14
+  replenishamount: 128
 stone_axe:
   price:
   maxstock:
   replenishtime:
   replenishamount:
 stone_button:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 80
+  maxstock: 32
+  replenishtime: 72
+  replenishamount: 8
 stone_hoe:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 205
+  maxstock: 8
+  replenishtime: 1
+  replenishamount: 1
 stone_pickaxe:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 245
+  maxstock: 4
+  replenishtime: 1
+  replenishamount: 2
 stone_plate:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 80
+  maxstock: 32
+  replenishtime: 7
+  replenishamount: 8
 stone_spade:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 165
+  maxstock: 4
+  replenishtime: 1
+  replenishamount: 2
 stone_sword:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 143
+  maxstock: 16
+  replenishtime: 72
+  replenishamount: 8
 storage_minecart:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 36000
+  maxstock: 16
+  replenishtime: 7
+  replenishamount: 2
 string:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 400
+  maxstock: 64
+  replenishtime: 1
+  replenishamount: 72
 sugar:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 20
+  maxstock: 1
+  replenishtime: 9999999
+  replenishamount: 1
 sugar_cane:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 10000
+  maxstock: 1
+  replenishtime: 9999
+  replenishamount: 1
 torch:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 563
+  maxstock: 512
+  replenishtime: 72
+  replenishamount: 64
 watch:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 274510
+  maxstock: 4
+  replenishtime: 72
+  replenishamount: 1
 wheat:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 15
+  maxstock: 1
+  replenishtime: 9999
+  replenishamount: 1
 wood:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 250
+  maxstock: 64
+  replenishtime: 72
+  replenishamount: 16
 wood_axe:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 1250
+  maxstock: 20
+  replenishtime: 1
+  replenishamount: 5
 wooden_door:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 1500
+  maxstock: 10
+  replenishtime: 1
+  replenishamount: 2
 wood_hoe:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 980
+  maxstock: 30
+  replenishtime: 1
+  replenishamount: 10
 wood_pickaxe:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 1230
+  maxstock: 15
+  replenishtime: 1
+  replenishamount: 5
 wood_plate:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 500
+  maxstock: 500
+  replenishtime: 1
+  replenishamount: 1
 wood_spade:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 375
+  maxstock: 20
+  replenishtime: 1
+  replenishamount: 5
 wood_stairs:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 1500
+  maxstock: 128
+  replenishtime: 1
+  replenishamount: 4
 wood_sword:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 563
+  maxstock: 10
+  replenishtime: 1
+  replenishamount: 
 wool:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 500
+  maxstock: 32
+  replenishtime: 1
+  replenishamount: 8
 workbench:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 1000
+  maxstock: 4
+  replenishtime: 1
+  replenishamount: 4
 yellow_flower:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 100
+  maxstock: 1
+  replenishtime: 9999
+  replenishamount: 1
