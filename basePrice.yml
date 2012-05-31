@@ -87,11 +87,6 @@ chest:
   maxstock: 4
   replenishtime: 72
   replenishamount: 1
-clay_block:
-  price: 2000
-  maxstock: 0
-  replenishtime:
-  replenishamount:
 clay_brick:
   price: 550
   maxstock: 26
@@ -105,58 +100,58 @@ clay_ball:
 coal:
   price: 5250
   maxstock: 1
-  replenishtime:
-  replenishamount:
+  replenishtime: 9999
+  replenishamount: 1
 compass:
   price: 27451
-  maxstock: 1
-  replenishtime:
-  replenishamount:
+  maxstock: 4
+  replenishtime: 1
+  replenishamount: 1
 cooked_fish:
   price: 666
   maxstock: 32
-  replenishtime:
-  replenishamount:
+  replenishtime: 1
+  replenishamount: 2
 dirt:
   price: 100
-  maxstock: 0
-  replenishtime:
-  replenishamount:
+  maxstock: 64
+  replenishtime: 1
+  replenishamount: 16
 double_step:
   price: 480
-  maxstock: 0
+  maxstock: 64
   replenishtime: 1
-  replenishamount: 0
+  replenishamount: 1
 egg:
   price: 500
   maxstock: 10
-  replenishtime:
-  replenishamount:
+  replenishtime: 7
+  replenishamount: 1
 feather:
   price: 400
-  maxstock: 0
-  replenishtime:
-  replenishamount:
+  maxstock: 32
+  replenishtime: 1
+  replenishamount: 1
 fence:
   price: 375
   maxstock: 64
-  replenishtime:
-  replenishamount:
+  replenishtime: 1
+  replenishamount: 4
 fishing_rod:
   price: 988
   maxstock: 1
-  replenishtime:
-  replenishamount:
+  replenishtime: 1
+  replenishamount: 1
 furnace:
   price: 1320
   maxstock: 5
-  replenishtime:
-  replenishamount:
+  replenishtime: 72
+  replenishamount: 5
 glass:
   price: 1156
   maxstock: 32
-  replenishtime:
-  replenishamount:
+  replenishtime: 72
+  replenishamount: 32
 glowstone_dust:
   price: 4096
   maxstock: 32
@@ -164,14 +159,14 @@ glowstone_dust:
   replenishamount: 1
 gold_chestplate:
   price: 13600
-  maxstock: 2
-  replenishtime:
-  replenishamount:
+  maxstock: 4
+  replenishtime: 72
+  replenishamount: 1
 gold_helmet:
   price: 8500
-  maxstock: 2
-  replenishtime:
-  replenishamount:
+  maxstock: 4
+  replenishtime: 72
+  replenishamount: 1
 gold_record:
   price: 100000
   maxstock: 1
@@ -179,9 +174,9 @@ gold_record:
   replenishamount:
 gold_axe:
   price: 5225
-  maxstock: 1
-  replenishtime:
-  replenishamount:
+  maxstock: 4
+  replenishtime: 72
+  replenishamount: 1
 gold_block:
   price: 15301
   maxstock: 1
@@ -189,54 +184,54 @@ gold_block:
   replenishamount:
 gold_boots:
   price: 6800
-  maxstock: 2
-  replenishtime:
-  replenishamount:
+  maxstock: 4
+  replenishtime: 72
+  replenishamount: 1
 gold_hoe:
   price: 3525
-  maxstock: 1
-  replenishtime:
-  replenishamount:
+  maxstock: 4
+  replenishtime: 72
+  replenishamount: 1
 gold_ingot:
   price: 1700
   maxstock: 32
-  replenishtime:
-  replenishamount:
+  replenishtime: 1
+  replenishamount: 1
 gold_leggings:
   price: 11900
-  maxstock: 2
-  replenishtime:
-  replenishamount:
+  maxstock: 4
+  replenishtime: 72
+  replenishamount: 1
 gold_ore:
   price: 1043
-  maxstock: 0
-  replenishtime:
-  replenishamount:
+  maxstock: 1
+  replenishtime: 9999
+  replenishamount: 1
 gold_pickaxe:
   price: 5225
-  maxstock: 1
-  replenishtime:
-  replenishamount:
+  maxstock: 4
+  replenishtime: 72
+  replenishamount: 1
 gold_spade:
   price: 1825
-  maxstock: 1
-  replenishtime:
-  replenishamount:
+  maxstock: 4
+  replenishtime: 72
+  replenishamount: 1
 gold_sword:
   price: 3462
-  maxstock: 1
-  replenishtime:
-  replenishamount:
+  maxstock: 4
+  replenishtime: 72
+  replenishamount: 1
 gravel:
   price: 1
-  maxstock: 6400
-  replenishtime:
-  replenishamount:
+  maxstock: 640
+  replenishtime: 1
+  replenishamount: 16
 green_record:
-  price:
-  maxstock:
-  replenishtime:
-  replenishamount:
+  price: 10000
+  maxstock: 1
+  replenishtime:  504
+  replenishamount: 1
 grilled_pork:
   price: 500
   maxstock: 640
