@@ -137,7 +137,7 @@ public class Event_onBlockClick implements Listener
 									if (!plugin.towns.getKeys(true).contains(townName + ".items." + itemName + ".replenishtimer"))
 									{
 										plugin.signText[1] = townName;
-										plugin.signText[2] = itemName;
+										plugin.signText[2] = itemName.toLowerCase();
 										plugin.createReplenishTimer(townName, itemName, 0, replenishTime);
 										plugin.towns.set(townName + ".items." + itemName + ".replenishtimer", 0);
 									}								
@@ -285,7 +285,7 @@ public class Event_onBlockClick implements Listener
 					String [] signText = sign.getLines();
 					String playerName = player.getName();
 					String townName = signText[1];
-					String itemName = signText[2];
+					String itemName = signText[2].toLowerCase();
 					Integer quantity = Integer.parseInt(signText[3]);
 					Integer curstock = plugin.towns.getInt(townName + ".items." + itemName + ".curstock");
 					Integer maxstock = -1;
@@ -350,7 +350,7 @@ public class Event_onBlockClick implements Listener
 							econ.withdrawPlayer(player.getName(), finalPrice);
 							player.getInventory().addItem(items);
 							Integer newStock = curstock - quantity;
-							plugin.towns.set(signText[1] + ".items." + signText[2] + ".curstock", newStock);
+							plugin.towns.set(signText[1] + ".items." + signText[2].toLowerCase() + ".curstock", newStock);
 							plugin.saveYamls();
 							player.updateInventory();
 							player.sendMessage(plugin.pre + "You bought " + quantity.toString() + " " + itemName.toString() + "(s) from " + townName + " for " + String.valueOf(finalPrice) + ".");

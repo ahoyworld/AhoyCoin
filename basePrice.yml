@@ -14,7 +14,7 @@ bed:
   replenishtime: 1
   replenishamount: 1
 bedrock:
-  price: 100000000000
+  price: 100000000
   maxstock: 1
   replenistime: 1
   replenishamount: 1
