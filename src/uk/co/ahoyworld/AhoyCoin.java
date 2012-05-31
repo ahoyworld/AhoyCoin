@@ -37,6 +37,7 @@ public class AhoyCoin extends JavaPlugin {
 	public String [] signText = new String [4];
 	
 	public boolean replenishStartUp = true;
+	public boolean verboseLogging = false;
     
     String pre = ChatColor.GOLD + "[AhoyCoin]" + ChatColor.WHITE + " ";
     
@@ -80,18 +81,20 @@ public class AhoyCoin extends JavaPlugin {
         
         log = this.getLogger();
         
+    	verboseLogging = config.getBoolean("settings.verbose-logging");
+        
         replenishStartUp = true;
         Integer replenishTime = -1;
         
     	for (String town : towns.getKeys(false))
     	{
-    		log.info("Key 1: " + town);
+    		if (verboseLogging) log.info("Key 1: " + town);
     		for (String item : towns.getConfigurationSection(town + ".items").getKeys(false))
     		{
-    			log.info("Key 2: " + item);
+    			if (verboseLogging) log.info("Key 2: " + item);
     			if (towns.getKeys(true).contains(town + ".items." + item + ".replenishtimer"))
 				{
-    				log.info("GOT ONE!");
+    				if (verboseLogging) log.info("GOT ONE!");
     				if (towns.getKeys(true).contains(town + ".items." + item + ".replenishtime"))
     				{
     					replenishTime = towns.getInt(town + ".items." + item + ".replenishtime");
@@ -178,14 +181,14 @@ public class AhoyCoin extends JavaPlugin {
  
     public void createReplenishTimer(String townName, String itemName, Integer initialDelay, Integer replenishTime)
     {
-    	log.info("Replenish Timer Creator called! Town: " + townName + ", Item: " + itemName);
+    	if (verboseLogging) log.info("Replenish Timer Creator called! Town: " + townName + ", Item: " + itemName);
     	if (replenishStartUp)
     	{
     		signText[1] = townName;
     		signText[2] = itemName;
     	}
-    	log.info("Sign 1: " + signText[1] + ", Sign 2: " + signText[2]);
-    	log.info("Delay: " + initialDelay.toString() + ", Time: " + replenishTime.toString());
+    	if (verboseLogging) log.info("Sign 1: " + signText[1] + ", Sign 2: " + signText[2]);
+    	if (verboseLogging) log.info("Delay: " + initialDelay.toString() + ", Time: " + replenishTime.toString());
     	Integer startTime = (int) (System.currentTimeMillis() / 1000L);
 		Replenish replenish = new Replenish(this, townName + "," + itemName + "," + startTime.toString());
 		replenish.setPid(getServer().getScheduler().scheduleSyncRepeatingTask(this, replenish, (long) initialDelay, (long) replenishTime));
@@ -220,11 +223,11 @@ public class AhoyCoin extends JavaPlugin {
     		itemName = taskInfo[1];
     		startTimeUnix = (int) (Long.parseLong(taskInfo[2]));
     		ranForSecs = (long) (timeStamp - startTimeUnix);
-    		log.info("Current Time: " + timeStamp.toString() + ", Start Time: " + startTimeUnix.toString() + ", Ran for " + ranForSecs.toString() + " secs.");
+    		if (verboseLogging) log.info("Current Time: " + timeStamp.toString() + ", Start Time: " + startTimeUnix.toString() + ", Ran for " + ranForSecs.toString() + " secs.");
     		//ranForSecs = (currentTime.longValue() - Long.parseLong(taskInfo[2]));
     		//log.info("Current Time: " + currentTime.toString() + ", Start Time: " + taskInfo[2]);
     		ranForTicks = (int) (ranForSecs * 20);
-    		log.info("Task ID: " + i.toString() + ", Town: " + townName + ", Item: " + itemName + ".");
+    		if (verboseLogging) log.info("Task ID: " + i.toString() + ", Town: " + townName + ", Item: " + itemName + ".");
     		
     		if (towns.getKeys(true).contains(townName + ".items." + itemName + ".replenishtime"))
     		{
@@ -277,11 +280,11 @@ public class AhoyCoin extends JavaPlugin {
 			}
 			
     		//finalTicks = ranForTicks - extraneousData;
-    		log.info("replenishTime: " + replenishTime.toString());
-    		log.info("ranForTicks: " + ranForTicks.toString());
+			if (verboseLogging) log.info("replenishTime: " + replenishTime.toString());
+			if (verboseLogging) log.info("ranForTicks: " + ranForTicks.toString());
     		//log.info("extraneousData: " + extraneousData.toString());
-    		log.info("timesRunRounded: " + timesRunRounded.toString());
-    		log.info("Task ID: " + i.toString() + ", Final Ticks: " + finalTicks.toString() + ".");
+			if (verboseLogging) log.info("timesRunRounded: " + timesRunRounded.toString());
+			if (verboseLogging) log.info("Task ID: " + i.toString() + ", Final Ticks: " + finalTicks.toString() + ".");
     		
     		towns.set(townName + ".items." + itemName + ".replenishtimer", finalTicks);
     		
@@ -312,27 +315,6 @@ public class AhoyCoin extends JavaPlugin {
                 {
                     player.sendMessage(pre + "Usage: /AC town [list, add, remove]");
                     return true;
-                }
-                
-                if (args[0].equalsIgnoreCase("reload"))
-                {
-                	this.reloadConfig();
-                	return true;
-                }
-                
-                if (args[0].equalsIgnoreCase("testphrase"))
-                {
-                	player.sendMessage(pre + phrasesMap.get("sign_created"));
-                }
-                
-                if (args[0].equalsIgnoreCase("disable"))
-                {
-                	onDisable();
-                }
-                
-                if (args[0].equalsIgnoreCase("enable"))
-                {
-                	onEnable();
                 }
             }
             if (args.length == 2)

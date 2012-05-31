@@ -243,11 +243,11 @@ public class Event_onBlockClick implements Listener
 						if (!isComplete)
 						{
 							Integer amountHeld = inHand.getAmount();
-							System.out.println("[AhoyCoin] amountHeld = " + amountHeld.toString());
+							if (plugin.verboseLogging) System.out.println("[AhoyCoin] amountHeld = " + amountHeld.toString());
 							amountHeld -= 1;
-							System.out.println("[AhoyCoin] newAmountHeld = " + amountHeld.toString());
+							if (plugin.verboseLogging) System.out.println("[AhoyCoin] newAmountHeld = " + amountHeld.toString());
 							Integer newAmount = amount + 1;
-							System.out.println("[AhoyCoin] newAmount = " + newAmount.toString());
+							if (plugin.verboseLogging) System.out.println("[AhoyCoin] newAmount = " + newAmount.toString());
 							
 							plugin.projects.set(projectName + ".items." + itemNeeded + ".amount", newAmount);
 							
@@ -354,7 +354,8 @@ public class Event_onBlockClick implements Listener
 							plugin.saveYamls();
 							player.updateInventory();
 							player.sendMessage(plugin.pre + "You bought " + quantity.toString() + " " + itemName.toString() + "(s) from " + townName + " for " + String.valueOf(finalPrice) + ".");
-							player.sendMessage(plugin.pre + "Your new balance is " + econ.getBalance(player.getName()) + ".");
+							//player.sendMessage(plugin.pre + "Your new balance is " + econ.getBalance(player.getName()) + ".");
+							player.performCommand("money");
 						} else {
 							player.sendMessage(plugin.pre + "You don't have enough money! You've only got " + econ.getBalance(player.getName()) + "!");
 						}
@@ -392,7 +393,8 @@ public class Event_onBlockClick implements Listener
 								econ.depositPlayer(player.getName(), finalPrice);
 								
 								player.sendMessage(plugin.pre + "You sold " + quantity.toString() + " " + itemName + "(s) to " + townName + " for " + String.valueOf(finalPrice) + ".");
-								player.sendMessage(plugin.pre + "Your new balance is " + econ.getBalance(player.getName()) + ".");
+								//player.sendMessage(plugin.pre + "Your new balance is " + econ.getBalance(player.getName()) + ".");
+								player.performCommand("money");
 							} else {
 								player.sendMessage(plugin.pre + "You don't have enough " + itemName + "s to sell to this shop! You need at least " + quantity.toString() + ".");
 							}

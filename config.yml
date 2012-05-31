@@ -1,5 +1,4 @@
 settings:
-  verbose-start: false
   verbose-logging: false
 defaults:
   tax: 10

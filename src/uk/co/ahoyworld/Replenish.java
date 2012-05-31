@@ -21,7 +21,7 @@ public class Replenish implements Runnable
 	public void setPid(int pid)
 	{
 		taskID = pid;
-		System.out.println("[AhoyCoin] Task ran with an ID of " + pid + ".");
+		if (plugin.verboseLogging) System.out.println("[AhoyCoin] Task ran with an ID of " + pid + ".");
 	}
 	
 	public void run()
@@ -61,9 +61,9 @@ public class Replenish implements Runnable
 		
 		//if (!plugin.replenishStartUp) { plugin.towns.set(townName + ".items." + itemName + ".replenishtimer", 0); }
 		Integer startTime = (int) (System.currentTimeMillis() / 1000L);
-		System.out.println("[AhoyCoin] Task ran with an ID of " + taskID + ". < This is true");
+		if (plugin.verboseLogging) System.out.println("[AhoyCoin] Task ran with an ID of " + taskID + ". < This is true");
 		townNameTime = townName + "," + itemName + "," + startTime.toString();
-		System.out.println("Item \"" + itemName + "\" in town \"" + townName + "\" replenished " + replenishAmount.toString() + " stock and now has " + newCurStock.toString() + " stock.");
+		if (plugin.verboseLogging) System.out.println("Item \"" + itemName + "\" in town \"" + townName + "\" replenished " + replenishAmount.toString() + " stock and now has " + newCurStock.toString() + " stock.");
 		plugin.towns.set(townName + ".items." + itemName + ".curstock", newCurStock);
 		
 		plugin.saveYamls();
